@@ -1,0 +1,112 @@
+/** -----------------------  布局大小  ------------------------ */
+@headerHeight: 44px; /** 头部高度 */
+@footerHeight: 50px; /** 底部高度 */
+@maxWidth: 800px; /** 最大宽度 */
+
+/** -----------------------  字号大小  ------------------------ */
+@defaultFontSize: 14px;
+@largeFontSize: 16px;
+@smallFontSize: 12px;
+@FontSize10: 10px;
+@FontSize9: 9px;
+@FontSize20: 20px;
+@FontSize13: 13px;
+@FontSize15: 15px;
+@FontSize18: 18px;
+@FontSize17: 17px;
+@FontSize24: 24px;
+@FontSize48: 48px;
+
+/** -------------------------  颜色  -------------------------- */
+
+@cTheme: #3347D1;
+@cf: #ffffff;
+@c3: #333;
+@c0: #000;
+@c6: #666;
+@c9: #999;
+@ce: #eee;
+@cE4805E:#E4805E;
+@cD19B33:#D19B33;
+@cFCE750:#FCE750;
+@cFCCD50:#FCCD50;
+@cD14E33:#D14E33;
+@c1B1A78:#1B1A78;
+@c3549D2:#3549D2;
+@cE45ECA:#E45ECA;
+@cF0F0F0:#F0F0F0;
+@cD8D8D8:#D8D8D8;
+@cE8E8E8:#E8E8E8;
+@cF9F9F9:#F9F9F9;
+@cF3F3F3:#F3F3F3;
+@cF5F5F5:#F5F5F5;
+@cDBE0FF: #DBE0FF;
+@c4C4C4C:#4C4C4C;
+@c565960:#565960;
+@c65686F:#65686F;
+@cE7E7E7:#E7E7E7;
+@cCBCBCB:#CBCBCB;
+@cFF739A:#FF739A;
+@cFFC7D7:#FFC7D7;
+@cAE33D1:#AE33D1;
+@c33D1C7:#33D1C7;
+@cF76C1D:#F76C1D;
+@cD16B33:#D16B33;
+@c131313:#131313;
+@c131313:#131313;
+@c979797:#979797;
+@c31AC48:#31AC48;
+@cD14E33:#D14E33;
+/** -------------------------  背景  -------------------------- */
+ @bgf: @cf;
+/** -------------------------  边框  -------------------------- */
+ @brf:@cf;
+/** -------------------------  图片比例  -------------------------- */
+@imgBanner:40%;
+@imgBase:60%;
+@imgBigAd:124.43%;
+@imgService:20.22%;
+@imgSurrounding:25%;
+@imgBuilding:53.33%;
+
+/** -------------------------  边距  -------------------------- */
+@plrPage: 8px; /** 页面左右内边距 */
+@plrNewsList: 13px; /** 新闻/楼盘左右内边距 */
+@plrNewsitem: 10px; /** 楼盘上下外边距 */
+@plr: 5px; /** 左右内边距 */
+@ptb: 5px; /** 上下内边距 */
+
+@mlr: 18px;  /** 模块上下内边距 */
+
+@space5: 5px; /** 间距 */
+
+@borderRadius: 4px;
+
+.FontSize10{
+  font-size: @smallFontSize;
+  width: 120%;
+  transform: scale(0.83);
+  margin-left: -10.24%;
+}
+
+.lineClamp(@limitRows: 2) {
+  overflow: hidden;
+  // text-overflow: -o-ellipsis-lastline;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: @limitRows;
+  line-clamp: @limitRows;
+  -webkit-box-orient: vertical;
+}
+
+.lineargGradient (@degree: 270deg){
+  background:linear-gradient(@degree,rgba(94,109,228,1) 0%,rgba(51,71,209,1) 100%);
+}
+
+.lineargGradientFgj (@degree: 270deg){
+  background:linear-gradient(@degree,rgba(114,225,96,1) 0%,rgba(49,172,72,1) 100%);
+}
+
+.lineargGradientFjj (@degree: 270deg){
+  background:linear-gradient(@degree,rgba(248,185,33,1) 0%,rgba(247,107,28,1) 100%);
+}
