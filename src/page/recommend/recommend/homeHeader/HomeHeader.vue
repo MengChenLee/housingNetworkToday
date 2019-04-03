@@ -44,7 +44,7 @@ export default {
       sessionStorage.setItem('active', val)
     },
     active (val) {
-      // console.log(this.active)
+      console.log(val, this.active)
       sessionStorage.setItem('active', this.active)
       this.$emit('change', this.active)
     }

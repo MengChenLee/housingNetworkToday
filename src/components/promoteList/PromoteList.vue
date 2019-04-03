@@ -1,6 +1,6 @@
 <template>
   <div class="th_promote_list">
-    <router-link  :to="'/promoteDetail/'+item.id+'?selected='+toLinkGo" class="th_promote_list-item" v-for="(item, index) in promoteList" :key="index">
+    <router-link  :to="'/promoteDetail/'+item.id" class="th_promote_list-item" v-for="(item, index) in promoteList" :key="index">
       <div class="th_promote_list-item-cont">
           <div class="th_promote_list-item-title">
             {{item.buildingGroupName || '楼盘名称'}}
@@ -40,7 +40,6 @@ export default {
 
   },
   mounted () {
-    this.toLinkGo = this.$route.query.id
   },
   created () {
   },

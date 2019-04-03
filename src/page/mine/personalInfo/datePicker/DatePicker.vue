@@ -2,7 +2,7 @@
        <mt-datetime-picker
         class="myDatePicker"
         ref="myDatePicker"
-        type="datetime"
+        type="date"
         v-model="pickerValue"
         :startDate="startDate"
         :endDate="endDate"
@@ -18,21 +18,17 @@
 export default {
   data () {
     return {
-      pickerValue: new Date(),
+      startDate: new Date(),
       endDate: new Date(),
-      startDate: new Date()
+      pickerValue: ''
     }
   },
   components: {
   },
-  created () {
-    let year = +this.startDate.getFullYear() + 50
-    this.endDate = new Date(year + '/01/01 00:00:00')
-  },
   activated () {
-    let year = +this.startDate.getFullYear() + 50
-    this.endDate = new Date(year + '/01/01 00:00:00')
-    this.pickerValue = new Date(year + '/01/01 00:00:00')
+    let year = +this.endDate.getFullYear() - 100
+    this.startDate = new Date(year + '/01/01')
+    this.pickerValue = new Date(year + '/01/01')
   },
   methods: {
     open () {

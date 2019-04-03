@@ -34,7 +34,7 @@
           <tr>
             <td>售楼地址</td>
             <td>
-              <span>{{baseInfo.address}}</span>
+              <span @click="goMap(null)">{{baseInfo.address}}</span>
             </td>
           </tr>
         </table>
@@ -83,6 +83,18 @@ export default {
   created () {
   },
   methods: {
+    goMap (id) {
+      if (id) {
+        this.$router.push({name: 'propertyDetail', params: {id: id}})
+      } else {
+        this.$router.push({path: '/propertyMap',
+          query: {
+            lat: this.baseInfo.lat,
+            lng: this.baseInfo.lng
+          }
+        })
+      }
+    },
     click () {
       this.$router.push({name: 'propertyBaseInfoDetail', params: {id: this.baseInfo.id}})
     },

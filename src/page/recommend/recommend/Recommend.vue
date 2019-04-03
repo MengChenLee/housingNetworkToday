@@ -25,7 +25,7 @@
           </mt-tab-container-item>
         </mt-tab-container>
       </div>
-      <th-footer-tab slot="footer" :active="'recommend?selected=1'"></th-footer-tab>
+      <th-footer-tab slot="footer" :active="'recommend'"></th-footer-tab>
     </th-layout>
   </div>
 </template>
@@ -81,13 +81,12 @@ export default {
   mounted () {
     this.setRecommendData()
     this.setCommendList()
+    this.selected = sessionStorage.getItem('active') || '1'
   },
   created () {
   },
   activated () {
-    // console.log(this.$route)
     this.selected = sessionStorage.getItem('active') || '1'
-    // console.log(this.$route.meta)
     // this.$refs.cont.scrollTop = this.$route.meta.scrollTop
   },
   methods: {

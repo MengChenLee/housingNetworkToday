@@ -16,24 +16,21 @@
           <ul>
             <li>
               <th-cell :cellData="{title:'流程与详情'}"></th-cell>
-              <p>
-                <table class="th_property_list-item-info">
-                  <tr><td>活动详情：</td><td>{{promoteDetail.content}}</td></tr>
-                  <tr><td>适用范围：</td><td>{{promoteDetail.useRange}}</td></tr>
-                  <tr><td>使用方法：</td><td>{{promoteDetail.useMethod}}</td></tr>
-                  <tr><td>服务承诺：</td><td>{{promoteDetail.service}}</td></tr>
-                </table>
-              </p>
+                <div class="th_property_list-item-info">
+                  <div><span>活动详情：</span></div>
+                  <div class="content"><span>{{promoteDetail.content}}</span></div>
+                  <div><span>适用范围：</span><span>{{promoteDetail.useRange}}</span></div>
+                  <div><span>使用方法：</span><span>{{promoteDetail.useMethod}}</span></div>
+                  <div><span>服务承诺：</span><span>{{promoteDetail.service}}</span></div>
+                </div>
             </li>
             <li>
               <th-cell :cellData="{title:'楼盘详情'}"></th-cell>
-              <p>
                 <table class="th_property_list-item-info">
-                  <tr><td>均价：</td><td>{{promoteDetail.price / 10000}}万元/㎡</td></tr>
+                  <tr><td>均&emsp;&emsp;价：</td><td>{{promoteDetail.price}}元/㎡</td></tr>
                   <tr><td>开盘时间：</td><td>{{promoteDetail.beginSellDate | formatTime('YMD_')}}</td></tr>
-                  <tr><td>地 址：</td><td>{{promoteDetail.address}}</td></tr>
+                  <tr><td>地&emsp;&emsp;址：</td><td>{{promoteDetail.address}}</td></tr>
                 </table>
-              </p>
             </li>
           </ul>
           <div class="th_promote_detail-more" @click="click"><span>更多详情</span></div>
@@ -69,13 +66,11 @@ export default {
     }
   },
   mounted () {
-    this.selected = +this.$route.query.id
     // this.setData()
   },
   created () {
   },
   activated () {
-    this.selected = +this.$route.query.id
     this.id = this.$route.params.id
     this.setData()
   },
@@ -120,14 +115,6 @@ export default {
           this.toast('接口异常，请稍后再试')
         }
       })
-    },
-    clickBtn () {
-      // console.log(this.selected)
-      if (this.selected === 2) {
-        this.$router.push({path: '/recommend?selected=2'})
-      } else {
-        this.$router.go(-1)
-      }
     },
     chat () {
       // params: {id: this.propertyId}
@@ -186,8 +173,12 @@ export default {
         margin: .5rem 0 1rem;
       }
       .th_property_list-item-info{
-        tr{
-          td{
+        .content span{
+          width: 100% !important;
+          padding-left: 24px !important;
+        }
+        div{
+          span{
             line-height: 1.25rem;
             vertical-align: top;
             &:first-child{
@@ -197,7 +188,7 @@ export default {
               color: @c9;
             }
             &:last-child{
-              // padding-left: .5rem;
+              padding-left: .5rem;
             }
             span{
               max-width: calc(100% - .6rem);

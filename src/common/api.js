@@ -85,6 +85,7 @@ const setMsnListById = baseUrl + '/group/getGroupMsnList'
 const sendMsn = baseUrl + '/group/sendMsn'
 const setMsnMemberList = baseUrl + '/group/getGroupMemberList'
 const setChatMsnList = baseUrl + '/group/getChatMsnList'
+const getQuestionMsnList = baseUrl + '/group/getQuestionMsnList'
 
 // main
 // 登陆接口
@@ -152,6 +153,7 @@ const confirmChannel = baseUrl + '/invite/confirmChannel'
 const getChannelBuildings = baseUrl + '/invite/getChannelBuildings'
 const getDistributorBuildings = baseUrl + '/invite/getDistributorBuildings'
 export default {
+  getQuestionMsnList: getQuestionMsnList,
   confirmChannel: confirmChannel,
   getChannelBuildings: getChannelBuildings,
   getDistributorBuildings: getDistributorBuildings,

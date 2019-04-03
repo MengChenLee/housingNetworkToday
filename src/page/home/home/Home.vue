@@ -74,10 +74,7 @@ export default {
           active: 1
         },
         propertyRecommend: {
-          title: '今日优推',
-          linkUrl: 'http://h5.jrfw360.com/recommend',
-          value: '更多',
-          active: 2
+          title: '今日优推'
         },
         nearbyMap: {
           title: '附近地图',
@@ -86,7 +83,8 @@ export default {
         },
         property: {
           title: '推荐楼盘',
-          linkUrl: 'http://h5.jrfw360.com/findHouse',
+          linkUrl: 'http://h5.jrfw360.com/recommend',
+          active: 2,
           value: '更多'
         }
       },

@@ -1,8 +1,8 @@
 <template>
   <div class="th_home_other">
-    <div class="th_home_other-cell"  :class="{arrow:isHaveArrow}">
+    <div class="th_home_other-cell"  :class="cellData.title==='今日优推'? 'isHaveArrow' : 'arrow'">
       {{cellData.title}}
-      <div class="th_home_other-cell-rigth" @click="click">
+      <div class="th_home_other-cell-rigth" @click="click" v-show="cellData.title==='今日优推'? false : true">
         <slot><div>更多</div></slot>
       </div>
     </div>
@@ -38,8 +38,8 @@ export default {
   },
   methods: {
     click () {
-      console.log(this.cellData)
       sessionStorage.setItem('active', this.cellData.active)
+      console.log(sessionStorage.getItem('active'))
       this.cellData.linkUrl && this.dealLink(this.cellData.linkUrl)
     }
   }

@@ -29,6 +29,7 @@ export default {
       if (window.jrfw.isApp()) {
         window.jrfw.back()
       } else {
+        // this.$router.go(-1)
         history.back()
       }
     }

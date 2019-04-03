@@ -119,7 +119,7 @@ export default {
 .th_friends{
   height: 100%;
   color: @c9;
-  padding-left:  @plrPage;
+  /*padding-left:  @plrPage;*/
   font-size: @smallFontSize;
   .th_friends-cont{
     padding-top:1.8rem;
@@ -149,7 +149,7 @@ export default {
     }
     ul{
       li{
-        padding: @plrPage @plrPage @plrPage 0;
+        padding: @plrPage;
         border-bottom: 1px solid @cD8D8D8;
         height: 2.5rem;
         .th_friends-item{

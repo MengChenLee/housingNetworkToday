@@ -22,11 +22,11 @@
             <span>{{userInfo.authenticationFlag>1 ? '已实名认证' : '未实名认证'}}</span>
           </li>
         </ul>
-        <!-- <ul class="th_mine-flex">
+         <!--<ul class="th_mine-flex">
           <li><div class="th_mine-Top-num">0</div><div>我的积分</div></li>
           <li><div class="th_mine-Top-num">0</div><div>我的房币</div></li>
           <li><div class="th_mine-Top-num">0</div><div>剩余天数</div></li>
-        </ul> -->
+        </ul>-->
         <img src="./imgs/setting.png" class="setting" @click.stop="click('setting')"/>
       </div>
       <ul class="th_mine-flex hasBorderBottom hasBorderSplice" ><li @click="click('shareAPP')">分享APP</li><li @click="click('sharePic')">邀请好友</li></ul>
@@ -51,12 +51,12 @@
           <div>{{item.text}}</div>
         </li>
       </ul>
-      <!-- <ul class="th_mine-flex hasBorderBottom">
-        <li v-for="(item,i) in toolList2" :key="i" @click="click(item.linkUrl)">
+       <ul class="th_mine-flex hasBorderBottom mine-flex">
+        <li v-for="(item,i) in funList" :key="i" @click="click(item.linkUrl)">
           <div class="th_mine-flex-img"><th-img-box :imgUrl="item.imgUrl"></th-img-box></div>
           <div>{{item.text}}</div>
         </li>
-      </ul> -->
+      </ul>
       <div v-if="userInfo.type === 3">
         <mt-cell
           v-for="(item,i) in funList"
@@ -292,6 +292,35 @@ export default {
       position: absolute;
       top: .5rem;
       right: .5rem;
+    }
+  }
+  .th_mine-flex.mine-flex{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-bottom: .3rem;
+    li{
+      flex: 1;
+      width: 100%;
+      height: 2.25rem;
+      text-align:left;
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      line-height: 2.25rem;
+      background-image: linear-gradient(180deg, #d9d9d9, #d9d9d9 50%, transparent 60%);
+      background-size: 120% 1px;
+      background-repeat: no-repeat;
+      background-position: bottom left;
+      padding-left: .5rem;
+      /deep/ .th_img-box-cont{
+        margin-top: 8px;
+      }
+
+      .th_mine-flex-img{
+        margin-right: 5px;
+      }
     }
   }
   .th_mine-flex{

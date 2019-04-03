@@ -25,7 +25,7 @@
           <!--<span class="text"></span>-->
         </mt-cell>
         <mt-cell title="生日" @click.native="openDatePicker" >
-          <span class="text" v-if="submitData.birthDay">{{submitData.birthDay | formatTime('YMDHMS')}}</span>
+          <span class="text" v-if="submitData.birthDay">{{submitData.birthDay | formatTime('YMD')}}</span>
           <input v-else type="text" placeholder="请输入生日" readonly />
         </mt-cell>
         <mt-cell title="电话" isLink to="/changePhone">
@@ -64,7 +64,7 @@
 import {getByAccountId, updateUser, getSecurityToken} from '../../../common/httpClient.js'
 import OSS from 'ali-oss'
 import ThBackBtn from '../../../components/base/backBtn/BackBtn.vue'
-import ThDatePicker from '../../../components/datePicker/DatePicker.vue'
+import ThDatePicker from './datePicker/DatePicker.vue'
 import ThCityPicker from '../../../components/cityPicker/CityPicker.vue'
 export default {
   data () {
@@ -90,7 +90,7 @@ export default {
       popupVisible: false,
       slots: [
         {
-          values: ['女', '男']
+          values: ['男', '女']
         }
       ],
       uploadData: {},

@@ -250,6 +250,7 @@ export default {
       setPropertyReport(data).then(res => {
         if (res && res.content) {
           this.toast(res.msg || '报备成功')
+          this.$router.go(-1)
         } else {
           this.toast(res.msg || '报备失败')
         }

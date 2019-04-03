@@ -22,18 +22,20 @@
   </div>
 </template>
 <script>
-import {setMsnListById, sendMsn} from '../../../common/httpClient.js'
+import {sendMsn, getQuestionMsnList} from '../../../common/httpClient.js'
 import ThChatItem from './chatItem/ChatItem.vue'
 import ThBackBtn from '../../../components/base/backBtn/BackBtn.vue'
 import ThFooter from './footer/Footer.vue'
 export default {
   data () {
     return {
-      groupId: Number(this.$route.params.id),
+      groupId: '',
       list: [],
       ing: true,
-      // 初始化无限加载相关参数
+      // 初始化无限加载相关参数setMsnListById,
       pageNo: 1,
+      otherAccountId: this.$route.query.accountId || '',
+      bulidingGroupId: Number(this.$route.params.id),
       loading: false, // 加载中
       allLoaded: true // 全部加载
     }
@@ -49,33 +51,36 @@ export default {
     ThBackBtn
   },
   created () {
-    this.getData()
+    this.getQuestionMsnList()
   },
   activated () {
     console.log(this.$route.params.id)
-    this.groupId = Number(this.$route.params.id)
+    this.bulidingGroupId = Number(this.$route.params.id)
+    this.otherAccountId = this.$route.query.accountId || ''
     this.pageNo = 1
-    this.getData()
+    this.getQuestionMsnList()
   },
   methods: {
     loadMore () {
       if (this.$refs.cont.scrollTop < 20 && !this.allLoaded && !this.loading) {
         this.loading = true
         ++this.pageNo
-        this.getData()
+        this.getQuestionMsnList()
       }
     },
-    getData () {
+    getQuestionMsnList () {
       let data = {
         'accountId': this.userInfo.id,
-        'groupId': this.groupId,
+        'otherAccountId': this.otherAccountId,
+        'bulidingGroupId': this.bulidingGroupId,
         'pageNo': this.pageNo,
         'pageSize': 15
       }
-      setMsnListById(data).then((res) => {
+      getQuestionMsnList(data).then((res) => {
         this.loading = false
         if (res && res.code === 1) {
           let cont = res && res.content
+          this.groupId = cont.groupId
           this.allLoaded = cont.msnList.length !== 15
           if (this.pageNo === 1) {
             this.list = cont.msnList
@@ -94,6 +99,36 @@ export default {
         }
       })
     },
+    // getData () {
+    //   let data = {
+    //     'accountId': this.userInfo.id,
+    //     'loginToken': this.userInfo.loginToken,
+    //     'groupId': this.groupId,
+    //     'pageNo': this.pageNo,
+    //     'pageSize': 15
+    //   }
+    //   setMsnListById(data).then((res) => {
+    //     this.loading = false
+    //     if (res && res.code === 1) {
+    //       let cont = res && res.content
+    //       this.allLoaded = cont.msnList.length !== 15
+    //       if (this.pageNo === 1) {
+    //         this.list = cont.msnList
+    //         this.$nextTick(() => {
+    //           this.$refs.cont.scrollTop = this.$refs.cont.scrollHeight
+    //         })
+    //       } else {
+    //         let scrollHeight = JSON.parse(JSON.stringify(this.$refs.cont.scrollHeight))
+    //         this.list.splice(0, 0, ...cont.msnList)
+    //         this.$nextTick(() => {
+    //           this.$refs.cont.scrollTop = this.$refs.cont.scrollHeight - scrollHeight
+    //         })
+    //       }
+    //     } else {
+    //       this.toast(res.msg || '加载失败')
+    //     }
+    //   })
+    // },
     send (sendData) {
       // private Long accountId;
       // private Long otherAccountId;

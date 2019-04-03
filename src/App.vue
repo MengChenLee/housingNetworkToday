@@ -146,7 +146,7 @@ export default {
             }
           })
         } else {
-          this.$router.push({name: 'login'})
+          this.$router.push({name: 'home'})
         }
       })
     },
@@ -215,6 +215,7 @@ export default {
     margin:0 auto;
     position: relative;
     text-align: justify;
+    -webkit-overflow-scrolling: touch;
     .downloadAPP{
       width: 2.25rem;
       height: 2.25rem;
@@ -223,6 +224,7 @@ export default {
       top: 70% !important;
       right: 0;
       z-index: 1999;
+      -webkit-overflow-scrolling: touch;
       img.APPImg{
         width: 100%;
         height: 100%;

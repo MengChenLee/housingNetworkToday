@@ -1,6 +1,6 @@
 <template>
   <div class="th_search">
-      <input v-model="mySearchData" @keypress="searchGoods" placeholder="TODAY’S NETWORK" @input="getSearchData"/>
+      <input v-model="mySearchData" id="search" v-focus="true" @keypress="searchGoods" placeholder="TODAY’S NETWORK" @input="getSearchData"/>
   </div>
 </template>
 
@@ -19,6 +19,17 @@ export default {
       mySearchData: ''
     }
   },
+  directives: { // 优先获焦
+    focus: {
+      inserted (el, {value}) {
+        console.log(el, {value})
+        if (value) {
+          el.focus()
+        }
+      }
+    }
+  },
+
   computed: {
 
   },
@@ -26,6 +37,7 @@ export default {
 
   },
   created () {
+    // document.querySelector('#search').focus()
   },
   methods: {
     getSearchData () {

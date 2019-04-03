@@ -61,22 +61,24 @@ export default {
         content: this.submitData.content,
         typeId: Number(this.submitData.type)
       }
-      addFeedback(data).then((res) => {
-        if (res && res.code === 1) {
-          this.submitData.type = ''
-          this.submitData.content = ''
-          this.toast('反馈提交成功')
-          this.$router.push({
-            path: '/setting'
-          })
-        } else if (this.submitData.type === '') {
-          this.toast('请选择反馈类型')
-        } else if (this.submitData.content === '') {
-          this.toast('请输入反馈内容')
-        } else {
-          this.toast(res.msg || '反馈失败')
-        }
-      })
+      if (data.content === '') {
+        this.toast('请输入反馈内容')
+      } else if (this.submitData.type === '') {
+        this.toast('请选择反馈类型')
+      } else {
+        addFeedback(data).then((res) => {
+          if (res && res.code === 1) {
+            this.submitData.type = ''
+            this.submitData.content = ''
+            this.toast('反馈提交成功')
+            this.$router.push({
+              path: '/setting'
+            })
+          } else {
+            this.toast(res.msg || '反馈失败')
+          }
+        })
+      }
     }
   }
 }

@@ -66,11 +66,12 @@
           </li>
           <li>
             <div class="title">客户电话<span>（系统将做隐号处理）</span></div>
-            <input v-model="submitData.phone"   placeholder="请输入到访客户电话"/>
+            <input type="number" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" v-model="submitData.phone"   placeholder="请输入到访客户电话"/>
+            <span class="add"><span class="addPhoneNumber"></span></span>
           </li>
           <li class="noRequire">
             <div class="title">备用电话<span>（系统将做隐号处理）</span></div>
-            <input v-model="submitData.backPhone"  placeholder="请输入到访客户备用电话"/>
+            <input type="number" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" v-model="submitData.backPhone"  placeholder="请输入到访客户备用电话"/>
           </li>
           <li>
             <div class="title">到访人数</div>
@@ -145,9 +146,9 @@ export default {
   },
   created () {
     // 添加默认的楼盘
-    this.selectList.push(this.$route.params.id)
-    this.selectTextList.push(this.$route.query.buildingGroupName)
-    this.selectPropertyRemarkList.push(this.$route.query.reportRemark)
+    // this.selectList.push(this.$route.params.id)
+    // this.selectTextList.push(this.$route.query.buildingGroupName)
+    // this.selectPropertyRemarkList.push(this.$route.query.reportRemark)
     try {
       // 报备数据-看房服务
       let reportData = sessionStorage.getItem('reportData')
@@ -180,10 +181,10 @@ export default {
       let reportCont = sessionStorage.getItem('report-content')
       reportCont && this.$set(this.submitData, 'content', sessionStorage.getItem('report-content'))
     } catch (error) {}
-    sessionStorage.setItem('selectPropertyList', '')
-    sessionStorage.setItem('selectPropertyTextList', '')
-    sessionStorage.setItem('selectPropertyRemarkList', '')
-    sessionStorage.setItem('report-content', '')
+    sessionStorage.clear('selectPropertyList')
+    sessionStorage.setItem('selectPropertyTextList')
+    sessionStorage.setItem('selectPropertyRemarkList')
+    sessionStorage.setItem('report-content')
   },
   methods: {
     openDatePicker (num) {
@@ -314,6 +315,40 @@ export default {
             font-size: @smallFontSize;
             span{
               color: @c9;
+            }
+          }
+          .add{
+            width: @defaultFontSize;
+            height: @defaultFontSize;
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            .addPhoneNumber{
+              position: absolute;
+              top: 0;
+              /*right: 50%;*/
+              width: @defaultFontSize;
+              background-color: @c9;
+              transform: translateX(-50%);
+              &:before{
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 3px;
+                height: @defaultFontSize;
+                background-color: @c9;
+              }
+              &:after{
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 3px;
+                height: @defaultFontSize;
+                background-color: @c9;
+                transform: rotateZ(90deg);
+              }
             }
           }
           input{

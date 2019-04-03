@@ -102,9 +102,12 @@ export default {
 
   },
   mounted () {
-
+    this.setPropertyDetail()
   },
   created () {
+    this.setPropertyDetail()
+  },
+  activated () {
     this.setPropertyDetail()
   },
   methods: {

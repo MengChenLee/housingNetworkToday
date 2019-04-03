@@ -190,6 +190,13 @@ export function sendMsn (params) { return post('sendMsn', params) }
 export function setMsnMemberList (params) { return post('setMsnMemberList', params) }
 
 /**
+ * 聊天信息
+ * @param {Object} params 请求参数
+ * @returns {Promise} 返回的promise对象
+ */
+export function getQuestionMsnList (params) { return post('getQuestionMsnList', params) }
+
+/**
  * 单聊
  * @param {Object} params 请求参数
  * @returns {Promise} 返回的promise对象

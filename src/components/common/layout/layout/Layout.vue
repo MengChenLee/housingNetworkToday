@@ -88,11 +88,12 @@ export default {
 </script>
 <style lang="less" scoped>
 .th_laybox{
-    height: calc(100%  - @footerHeight);
-    padding-top: @headerHeight;
-    box-sizing: border-box;
-    overflow: hidden;
-    position: relative;
+  height: calc(100%  - @footerHeight);
+  padding-top: @headerHeight;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
     &.isJrfwFgj{
       .th_laybox-header{
         .lineargGradientFgj;
@@ -116,24 +117,26 @@ export default {
         }
     }
     .th_laybox-header{
-        width: 100%;
-        height: @headerHeight;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        .lineargGradient;
+      width: 100%;
+      height: @headerHeight;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      .lineargGradient;
     }
     .th_laybox-cont{
-        height: 100%;
-        position: relative;
-        background-color: @cf;
+      height: 100%;
+      position: relative;
+      background-color: @cf;
+      -webkit-overflow-scrolling: touch;
         // overflow-x: hidden;
         //   overflow-y: auto;
         >*{
           height: 100%;
           overflow-x: hidden;
           overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
         }
     }
     .th_laybox-footer{

@@ -5,21 +5,21 @@
         <div>
           <!-- <mt-cell title="推送设置" isLink></mt-cell> -->
           <mt-cell title="权限控制" @click.native="setPermit">
-            <span class="link">&gt;</span>
+            <span class="link"></span>
           </mt-cell>
           <mt-cell title="更换手机号" @click.native="clickLink('changePhone')">
-            <span class="link">&gt;</span>
+            <span class="link"></span>
           </mt-cell>
           <mt-cell title="免责说明" @click.native="clickLink('protocol?app=1&type=7')">
-            <span class="link">&gt;</span>
+            <span class="link"></span>
           </mt-cell>
           <!-- <mt-cell title="版本更新" isLink ></mt-cell> -->
           <!-- <mt-cell title="应用推荐" isLink ></mt-cell> -->
           <mt-cell title="建议反馈" @click.native="clickLink('feedback')">
-            <span class="link">&gt;</span>
+            <span class="link"></span>
           </mt-cell>
           <mt-cell title="关于我们" @click.native="clickLink('protocol?app=1&type=6')">
-            <span class="link">&gt;</span>
+            <span class="link"></span>
           </mt-cell>
           <!-- <mt-cell title="清除缓存" ></mt-cell> -->
         </div>
@@ -162,9 +162,28 @@ export default {
       }
     }
    /deep/ .mint-cell span.link{
-     font-size: @FontSize13;
-     font-family: '微软雅黑';
-     font-weight: 700;
+     position: relative;
+     &:before{
+       display: inline-block;
+       content: '';
+       position: absolute;
+       top: 1px;
+       left: 0;
+       border: 6px solid;
+       border-top-color: transparent;
+       border-left-color: @cf;
+       border-right-color: transparent;
+       border-bottom-color: transparent;
+     }
+     &:after{
+       display: inline-block;
+       content: '';
+       border: 7px solid;
+       border-top-color: transparent;
+       border-left-color: @c9;
+       border-right-color: transparent;
+       border-bottom-color: transparent;
+     }
    }
   }
 }

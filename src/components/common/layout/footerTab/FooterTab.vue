@@ -9,7 +9,7 @@
         <img slot="icon" :src="myActive === 'findHouse'?findHouseT:findHouseF">
         找房
       </mt-tab-item>
-      <mt-tab-item id="recommend">
+      <mt-tab-item id="recommend" @click.native="recommendFlag = true">
         <img slot="icon" :src="myActive === 'recommend'?recommendT:recommendF">
         推荐
       </mt-tab-item>
@@ -47,6 +47,7 @@ export default {
   data () {
     return {
       myActive: this.active,
+      recommendFlag: false,
       homeF: homeF,
       homeT: homeT,
       findHouseF: findHouseF,
@@ -62,7 +63,7 @@ export default {
   watch: {
     myActive (val) {
       // console.log(val)
-      if (val === 'recommend') {
+      if (val === 'recommend' && this.recommendFlag === true) {
         sessionStorage.setItem('active', 1)
       }
       this.$router.replace(val)

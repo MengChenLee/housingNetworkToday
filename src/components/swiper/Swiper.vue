@@ -6,7 +6,7 @@
         :key="index"
         @click.native="click(itemValue,index)"
       >
-        <th-img-box :imgUrl="itemValue.picPath"></th-img-box>
+        <th-img-box :imgUrl="itemValue.picPath || itemValue"></th-img-box>
       </mt-swipe-item>
     </mt-swipe>
   </div>
