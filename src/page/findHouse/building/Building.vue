@@ -65,6 +65,9 @@ export default {
   created () {
     this.setData()
   },
+  activated () {
+    this.setData()
+  },
   methods: {
     getActiveIndex (index) {
       this.activeIndex = index

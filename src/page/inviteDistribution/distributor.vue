@@ -47,14 +47,6 @@ export default {
     // this.setFindHouseData()
   },
   created () {
-    console.log(this.$route)
-    // let url = location.search
-    // if (url.indexOf('?') !== -1) {
-    //   let str = url.substr(1)
-    //   let strs = str.split('&')
-    //   this.id = strs[0].split('=')[1]
-    //   this.ground = strs[1].split('=')[1]
-    // }
     this.setFindHouseData()
   },
   activated () {

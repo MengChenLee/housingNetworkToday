@@ -1,6 +1,5 @@
 <template>
   <div class="th_property_detail">
-    <!--<span class="linkBtn" @click="clickBtn">&it;</span>-->
     <th-layout ref="layBox">
       <div class="th_property_detail-cont" ref="cont">
         <th-swiper :bannerList="bannerList" v-if="bannerList" @click="goBrowserRes"></th-swiper>
@@ -93,19 +92,16 @@ export default {
       return this.$store.state.locate.location
     }
   },
-  beforeRouteUpdate (to, from, next) {
-    this.id = to.params.id
-    this.setPropertyDetail()
-    this.$refs.cont.scrollTop = 0
-    to.meta.scrollTop = 0
-    next()
-  },
-  mounted () {
-    this.selected = +this.$route.query.id
-    this.setPropertyDetail()
+  // beforeRouteUpdate (to, from, next) {
+  //   this.id = to.params.id
+  //   this.$refs.cont.scrollTop = 0
+  //   to.meta.scrollTop = 0
+  //   next()
+  // },
+  created () {
+    console.log(this.$route.params.id)
   },
   activated () {
-    this.selected = +this.$route.query.id
     this.id = this.$route.params.id
     this.setPropertyDetail()
   },
@@ -212,14 +208,6 @@ export default {
         this.$router.push({path: '/chat/' + cont.groupId})
       })
     },
-    clickBtn () {
-      // console.log(this.selected)
-      if (this.selected === 2) {
-        this.$router.push({path: '/recommend?selected=2'})
-      } else {
-        this.$router.go(-1)
-      }
-    },
     share () {
       this.wxShare(this.shareInfo, true)
     }
@@ -231,17 +219,6 @@ export default {
 .th_property_detail{
   height: 100%;
   position: relative;
-  .linkBtn{
-    position: absolute;
-    top: 0;
-    left: .6rem;
-    z-index: 100;
-    font-size: @FontSize17;
-    line-height: @headerHeight;
-    color: @cf;
-    width: @headerHeight;
-    height: @headerHeight;
-  }
   .th_property_detail-cont{
     width: 100%;
     // overflow: hidden;

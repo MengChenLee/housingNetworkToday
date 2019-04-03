@@ -17,8 +17,7 @@ export default {
   data () {
     return {
       icon: icon,
-      login: login,
-      loginFlag: false
+      login: login
     }
   },
   computed: {
@@ -41,8 +40,6 @@ export default {
       }
       await setLogin(params).then((res) => {
         if (res && res.code === 1) {
-          this.loginFlag = true
-          sessionStorage.setItem('loginFlag', this.loginFlag)
           // console.log(res)
           let resData = res.content
           this.$store.commit('user/setUser', {

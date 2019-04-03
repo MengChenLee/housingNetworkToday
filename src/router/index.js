@@ -33,7 +33,8 @@ vueRouter.beforeEach((to, from, next) => {
   let _this = new Vue()
   _this.closePopupVisible && _this.closePopupVisible()
   // 记录滚动条 位置信息
-  from.matched.length && (from.meta.scrollTop = from.matched[0].instances.default.$refs.cont.scrollTop)
+  // from.matched.length && (from.meta.scrollTop = from.matched[0].instances.default.$refs.cont.scrollTop)
+  window.scrollTo(0, 0)
   // 添加title name
   if (to.meta.title) {
     document.title = to.meta.title

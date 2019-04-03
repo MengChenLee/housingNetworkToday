@@ -76,15 +76,12 @@ export default {
         // console.log(val, oldval)
         // if (JSON.stringify(val) !== JSON.stringify(oldval)) {
         this.pageNo = 1
-        this.setFindHouseData()
-        this.setFindCondition()
         // }
       },
       deep: true
     }
   },
   mounted () {
-    // this.setFindHouseData()
   },
   created () {
     sessionStorage.setItem('findHouse-selectedArea', '')
@@ -98,6 +95,8 @@ export default {
     this.$set(this.select, 'districtId', sessionStorage.getItem('findHouse-selectedArea'))
     // 搜索页返回数据填充
     this.$set(this.select, 'buildingGroupName', this.$route.params.search)
+    this.setFindHouseData()
+    this.setFindCondition()
   },
   methods: {
     loadMore () {

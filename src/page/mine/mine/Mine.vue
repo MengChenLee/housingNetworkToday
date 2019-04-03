@@ -57,7 +57,7 @@
           <div>{{item.text}}</div>
         </li>
       </ul>
-      <div v-if="userInfo.type === 3">
+      <!--<div v-if="userInfo.type === 3">
         <mt-cell
           v-for="(item,i) in funList"
           :key="i"
@@ -66,7 +66,7 @@
           :to="item.linkUrl">
           <img slot="icon" :src="item.imgUrl" width="30" height="30" style="marginLeft:2px"/>
         </mt-cell>
-      </div>
+      </div>-->
     </div>
     <th-footer-tab slot="footer" :active="'mine'"></th-footer-tab>
   </th-layout>
@@ -178,11 +178,14 @@ export default {
   components: {
     ThFooterTab
   },
-  mounted () {},
+  mounted () {
+    sessionStorage.setItem('houseTypePrice', '')
+  },
   created () {
-    this.setData()
+    // this.setData()
   },
   activated () {
+    sessionStorage.setItem('houseTypePrice', '')
     this.setData()
     // this.$refs.cont.scrollTop = this.$route.meta.scrollTop
   },

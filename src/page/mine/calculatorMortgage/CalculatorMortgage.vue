@@ -82,6 +82,9 @@ export default {
   components: {
     ThSwiper
   },
+  created () {
+    // this.submitData.loanMoney = sessionStorage.getItem('houseTypePrice')
+  },
   mounted () {
     this.getData()
     this.setMonthList()
@@ -93,6 +96,7 @@ export default {
     })
   },
   activated () {
+    this.submitData.loanMoney = sessionStorage.getItem('houseTypePrice')
     this.setInterestRate()
   },
   methods: {

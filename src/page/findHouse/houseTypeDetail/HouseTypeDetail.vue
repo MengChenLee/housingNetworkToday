@@ -99,9 +99,10 @@ export default {
         let cont = res && res.content
         cont.buildingModelType.attachment.unshift(cont.buildingModelType.picPath)
         this.info = cont && cont.buildingModelType
-        console.log(this.info)
+        // console.log(this.info)
         this.info.buildingList = cont && cont.buildingList
         this.otherHouseType = cont && cont.otherBuildingModelType
+        sessionStorage.setItem('houseTypePrice', cont.buildingModelType.price)
       })
     },
     goUrl () {

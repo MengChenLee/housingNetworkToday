@@ -65,7 +65,6 @@ export default {
     ThPromoteList,
     ThNews,
     ThFooterTab
-
     // ThHouseFilider
   },
   computed: {

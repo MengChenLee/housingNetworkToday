@@ -95,7 +95,7 @@ export default {
   font-size: @smallFontSize;
   ul{
     li{
-      padding: @plrPage @plrPage @plrPage 0;
+      padding: @plrPage;
       border-bottom: 1px solid @cD8D8D8;
       height: 2.5rem;
       .th_chat_list-item{

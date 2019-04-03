@@ -1,20 +1,6 @@
 <template>
     <th-layout class="th_information">
       <div class="th_information-box" ref="cont">
-        <!--
-          accountId: 81
-          bookingNum: 0
-          bouns: 0
-          commendNum: 0
-          customDynamicNum: 0
-          dynamicCount: 0
-          followNum: 0
-          id: 34
-          msnNum: 0
-          newMsnCount: 22
-          reportNum: 4
-          systemNum: 18
-        -->
         <mt-cell
           title="看房提醒"
           is-link
@@ -93,7 +79,7 @@ export default {
     }
   },
   activated () {
-    this.getData()
+    // this.getData()
   },
   methods: {
     getData () {

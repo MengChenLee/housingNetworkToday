@@ -177,6 +177,7 @@ export default {
       if (navigator.userAgent.match(/Android/i)) {
         location.href = 'fjj://housing/detail?buildingGroupId=' + item.id
       } else if (navigator.userAgent.match(/iphone|ipod|ipad/i)) {
+        // this.toast('请用手机Safari浏览器打开')
         location.href = 'jrfwinviteschemes://houseDetail?id=' + item.id
       }
       setTimeout(function () {

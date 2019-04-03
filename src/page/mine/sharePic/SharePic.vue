@@ -51,6 +51,7 @@ export default {
       })
     },
     share () {
+      // let _this = this
       this.wxShare({
         title: '今日房网',
         imgUrl: this.userInfo.content,
@@ -84,8 +85,8 @@ export default {
     height: 100%;
     text-align: center;
     img{
-      max-width: 100%;
-      max-height: 100%;
+      width: 100%;
+      height: auto;
     }
   }
 }

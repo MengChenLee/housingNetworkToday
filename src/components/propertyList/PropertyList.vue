@@ -183,7 +183,7 @@ export default {
   },
   methods: {
     click (item) {
-      console.log(this.selectList)
+      // console.log(this.selectList)
       if (this.selectAble) {
         let _index = this.selectList.indexOf(item.id + '')
         if (_index > -1) { // 最后一个不允许删除

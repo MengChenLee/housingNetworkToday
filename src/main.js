@@ -103,7 +103,8 @@ function _dealWxShareData (data) {
     title: data.title || document.title,
     imgUrl: data.imgUrl || data.imageUrl || window.jrfw.baseIcon,
     link: data.link || data.url || location.href,
-    desc: data.desc || data.description || '买房、卖房，今日房网帮你忙；房产购销一站式服务平台'
+    desc: data.desc || data.description || '买房、卖房，今日房网帮你忙；房产购销一站式服务平台',
+    backFlag: false
   }
   return newData
 }
@@ -124,6 +125,7 @@ Vue.prototype.wxShare = function (data, mask = false) {
     }
   }
   config(function () {
+    document.getElementById('shareImg').style = 'display:none'
     share(_dealWxShareData(data))
   })
 }

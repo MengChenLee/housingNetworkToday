@@ -28,8 +28,13 @@ export default {
     back () {
       if (window.jrfw.isApp()) {
         window.jrfw.back()
+      } else if (window.jrfw.getIsWxClient()) {
+        if (window.history.length > 1) {
+          window.jrfw.back()
+        } else {
+          window.location.href = 'http://h5.jrfw360.com/home'
+        }
       } else {
-        // this.$router.go(-1)
         history.back()
       }
     }
@@ -39,7 +44,7 @@ export default {
 
 <style lang="less" scoped>
 .back{
-  width: 0rem;
+  width: 0;
   height: 100%;
   float: left;
   .th_back_btn{

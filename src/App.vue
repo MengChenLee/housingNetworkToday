@@ -61,6 +61,7 @@ export default {
     pictureBrowser
   },
   created () {
+
   },
   mounted () {
     let isAPP = util.isApp()
@@ -73,7 +74,6 @@ export default {
     this.setWxShare()
     this.setPopup()
     this.setDealLink()
-    this.setUserInfo()
   },
   activated () {
     this.setUserInfo()
@@ -117,8 +117,7 @@ export default {
         })
         this.roles = res.roles
         this.type = res.type
-        let loginFlag = sessionStorage.getItem('loginFlag') || ''
-        if (loginFlag || res.id || res.loginToken) {
+        if (res.id || res.loginToken) {
           this.data = {
             'accountId': sessionStorage.getItem('myId') || res.id,
             'loginToken': sessionStorage.getItem('loginToken') || res.loginToken
@@ -319,6 +318,6 @@ export default {
   #app .browserPicture{
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0,0,0,1);
   }
 </style>

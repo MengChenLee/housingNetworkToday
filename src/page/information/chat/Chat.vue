@@ -22,7 +22,7 @@
   </div>
 </template>
 <script>
-import {sendMsn, getQuestionMsnList} from '../../../common/httpClient.js'
+import {sendMsn, setMsnListById} from '../../../common/httpClient.js'
 import ThChatItem from './chatItem/ChatItem.vue'
 import ThBackBtn from '../../../components/base/backBtn/BackBtn.vue'
 import ThFooter from './footer/Footer.vue'
@@ -35,7 +35,7 @@ export default {
       // 初始化无限加载相关参数setMsnListById,
       pageNo: 1,
       otherAccountId: this.$route.query.accountId || '',
-      bulidingGroupId: Number(this.$route.params.id),
+      bulidingGroupId: '',
       loading: false, // 加载中
       allLoaded: true // 全部加载
     }
@@ -51,36 +51,37 @@ export default {
     ThBackBtn
   },
   created () {
-    this.getQuestionMsnList()
+    this.groupId = this.$route.params.id
+    console.log(this.groupId)
+    this.setMsnListById()
   },
   activated () {
-    console.log(this.$route.params.id)
-    this.bulidingGroupId = Number(this.$route.params.id)
+    this.groupId = this.$route.params.id
+    // console.log(this.$route.params.id)
+    // this.bulidingGroupId = Number(this.$route.params.id)
     this.otherAccountId = this.$route.query.accountId || ''
     this.pageNo = 1
-    this.getQuestionMsnList()
+    this.setMsnListById()
   },
   methods: {
     loadMore () {
       if (this.$refs.cont.scrollTop < 20 && !this.allLoaded && !this.loading) {
         this.loading = true
         ++this.pageNo
-        this.getQuestionMsnList()
+        this.setMsnListById()
       }
     },
-    getQuestionMsnList () {
+    setMsnListById () {
       let data = {
         'accountId': this.userInfo.id,
-        'otherAccountId': this.otherAccountId,
-        'bulidingGroupId': this.bulidingGroupId,
+        'groupId': this.groupId,
         'pageNo': this.pageNo,
         'pageSize': 15
       }
-      getQuestionMsnList(data).then((res) => {
+      setMsnListById(data).then((res) => {
         this.loading = false
         if (res && res.code === 1) {
           let cont = res && res.content
-          this.groupId = cont.groupId
           this.allLoaded = cont.msnList.length !== 15
           if (this.pageNo === 1) {
             this.list = cont.msnList
@@ -140,6 +141,7 @@ export default {
       // private String description;// 楼盘标签
       // private String lat;
       // private String lng;
+      console.log(this.groupId)
       let data = {
         'accountId': this.userInfo.id,
         'groupId': this.groupId
