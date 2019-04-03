@@ -48,7 +48,7 @@ npm test
 
 #### 参与贡献
 
-1. sheyangjuan 创建该项目
+1. limengchen 创建该项目
 
 
 #### 码云特技
