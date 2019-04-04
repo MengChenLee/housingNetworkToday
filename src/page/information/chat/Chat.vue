@@ -8,7 +8,7 @@
           ···
         </router-link>
       </div>
-      <div class="contBox">
+      <div class="contBox" id="contBox">
         <div class="th_chat-cont" ref="cont" @scroll="loadMore">
           <div class="more_loading">
             <span v-show="loading&&!allLoaded">加载中...</span>
@@ -45,6 +45,8 @@ export default {
       return this.$store.state.user.user
     }
   },
+  watch: {
+  },
   components: {
     ThChatItem,
     ThFooter,
@@ -55,15 +57,26 @@ export default {
     console.log(this.groupId)
     this.setMsnListById()
   },
+  mounted () {
+    this.scrollTop()
+  },
+  updated () {
+    this.scrollTop()
+  },
   activated () {
+    this.scrollTop()
     this.groupId = this.$route.params.id
-    // console.log(this.$route.params.id)
-    // this.bulidingGroupId = Number(this.$route.params.id)
     this.otherAccountId = this.$route.query.accountId || ''
     this.pageNo = 1
     this.setMsnListById()
   },
   methods: {
+    scrollTop () {
+      this.$nextTick(() => {
+        let container = this.$el.querySelector('#contBox')
+        container.scrollTop = container.scrollHeight
+      })
+    },
     loadMore () {
       if (this.$refs.cont.scrollTop < 20 && !this.allLoaded && !this.loading) {
         this.loading = true
@@ -100,36 +113,6 @@ export default {
         }
       })
     },
-    // getData () {
-    //   let data = {
-    //     'accountId': this.userInfo.id,
-    //     'loginToken': this.userInfo.loginToken,
-    //     'groupId': this.groupId,
-    //     'pageNo': this.pageNo,
-    //     'pageSize': 15
-    //   }
-    //   setMsnListById(data).then((res) => {
-    //     this.loading = false
-    //     if (res && res.code === 1) {
-    //       let cont = res && res.content
-    //       this.allLoaded = cont.msnList.length !== 15
-    //       if (this.pageNo === 1) {
-    //         this.list = cont.msnList
-    //         this.$nextTick(() => {
-    //           this.$refs.cont.scrollTop = this.$refs.cont.scrollHeight
-    //         })
-    //       } else {
-    //         let scrollHeight = JSON.parse(JSON.stringify(this.$refs.cont.scrollHeight))
-    //         this.list.splice(0, 0, ...cont.msnList)
-    //         this.$nextTick(() => {
-    //           this.$refs.cont.scrollTop = this.$refs.cont.scrollHeight - scrollHeight
-    //         })
-    //       }
-    //     } else {
-    //       this.toast(res.msg || '加载失败')
-    //     }
-    //   })
-    // },
     send (sendData) {
       // private Long accountId;
       // private Long otherAccountId;
@@ -141,7 +124,7 @@ export default {
       // private String description;// 楼盘标签
       // private String lat;
       // private String lng;
-      console.log(this.groupId)
+      // console.log(this.groupId)
       let data = {
         'accountId': this.userInfo.id,
         'groupId': this.groupId
@@ -181,6 +164,7 @@ export default {
   }
   .th_chat-cont{
     box-sizing: border-box;
+    /*overflow-y: scroll;*/
   }
 }
 </style>

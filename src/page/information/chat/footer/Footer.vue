@@ -4,7 +4,7 @@
         <span class="imgBox voice" @click="openApp"><th-img-box class="th_chat-item-img" :imgUrl="recording?keyboard:voiceImg"></th-img-box></span>
         <span class="centerBox">
           <div v-if="recording" @touchstart="recordingStart" @touchend="recordingEnd">按住&nbsp;&nbsp;&nbsp;说话</div>
-          <input v-else type="text" placeholder="请输入文字" v-model="content" @focus="focus" @blur="blur"/>
+          <input v-else type="text" placeholder="请输入文字" v-model="content" @click="focus" @focus="focus" @blur="blur"/>
         </span>
         <div class="imgBox send" v-if="focusFlag" @click="send">发送</div>
         <!-- <span class="imgBox" v-if="!focusFlag"><th-img-box class="th_chat-item-img" :imgUrl="expression"></th-img-box></span> -->
@@ -33,6 +33,7 @@
 
 <script>
 // https://segmentfault.com/a/1190000006243816#articleHeader2
+// https://blog.csdn.net/qq_39398332/article/details/81303438
 import expression from './imgs/expression.png'
 import keyboard from './imgs/keyboard.png'
 import chatAdd from './imgs/chatAdd.png'
@@ -256,6 +257,7 @@ export default {
           padding-left: .5rem;
           background-color: @cF5F5F5;
           box-sizing: border-box;
+          -webkit-user-select: auto !important;
         }
       }
     }

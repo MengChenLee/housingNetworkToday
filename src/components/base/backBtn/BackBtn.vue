@@ -14,13 +14,18 @@ export default {
   },
   data () {
     return {
+      arrPath: [],
+      fristPath: ''
     }
   },
   computed: {
 
   },
   mounted () {
-
+    // this.fristPath = this.$route.name
+    // console.log(this.fristPath)
+  },
+  activated () {
   },
   created () {
   },
@@ -30,9 +35,10 @@ export default {
         window.jrfw.back()
       } else if (window.jrfw.getIsWxClient()) {
         if (window.history.length > 1) {
-          window.jrfw.back()
+          history.back()
         } else {
-          window.location.href = 'http://h5.jrfw360.com/home'
+          window.location.replace('http://h5.jrfw360.com/home')
+          // window.location.href = 'http://h5.jrfw360.com/home'
         }
       } else {
         history.back()

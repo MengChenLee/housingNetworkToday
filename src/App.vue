@@ -61,7 +61,6 @@ export default {
     pictureBrowser
   },
   created () {
-
   },
   mounted () {
     let isAPP = util.isApp()
@@ -69,14 +68,14 @@ export default {
       this.clickClose()
     } else {
       this.appShow = true
-      // this.$refs.app.style.paddingTop = '3rem'
     }
     this.setWxShare()
     this.setPopup()
     this.setDealLink()
+    this.setUserInfo()
   },
   activated () {
-    this.setUserInfo()
+    // this.setUserInfo()
   },
   methods: {
     click (e) {
@@ -127,19 +126,6 @@ export default {
               let userInfo = res.content.account
               this.roles = userInfo.roles
               this.type = userInfo.type
-              // if (this.roles === 5) {
-              //   this.APPName = '房管家'
-              //   this.APPInfo = '房产销控运管交互平台'
-              //   this.$refs.downloadAPPBg.style.background = 'linear-gradient(270deg,rgba(114,225,96,1) 0%,rgba(49,172,72,1) 100%)'
-              // } else if (this.type > 3) {
-              //   this.APPName = '房经纪'
-              //   this.APPInfo = '房产电商营销交互平台'
-              //   this.$refs.downloadAPPBg.style.background = 'linear-gradient(270deg,rgba(248,185,33,1) 0%,rgba(247,107,28,1) 100%)'
-              // } else {
-              //   this.APPName = '今日房网'
-              //   this.APPInfo = '房产购销一站式共享平台'
-              //   this.$refs.downloadAPPBg.style.backgroundImage = 'url("' + jrfw + '")'
-              // }
             } else {
               this.toast(res.msg || '加载失败')
             }
@@ -215,6 +201,8 @@ export default {
     position: relative;
     text-align: justify;
     -webkit-overflow-scrolling: touch;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translate3d(0,0,0);
     .downloadAPP{
       width: 2.25rem;
       height: 2.25rem;

@@ -125,8 +125,6 @@ export default {
     ThCityPicker
   },
   created () {
-    this.setData()
-    // this.uploadImg()
   },
   activated () {
     this.setData()
@@ -140,7 +138,6 @@ export default {
     },
     onValuesChange (picker, values) {
       picker.setSlotValue(1, this.submitData.gender ? '女' : '男')
-      console.log(values[0])
       this.$set(this.submitData, 'gender', values[0] === '女' ? 2 : 1)
     },
     openDatePicker () {

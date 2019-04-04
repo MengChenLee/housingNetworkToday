@@ -63,6 +63,8 @@ export default {
     pageValue (val) {
       window.jrfw.isFirstScreen(val) && (this.active = val)
     },
+    scrollTop () {
+    },
     active (val) {
       // this.$router.push(val)
     }
@@ -91,7 +93,7 @@ export default {
   height: calc(100%  - @footerHeight);
   padding-top: @headerHeight;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-y: scroll;
   position: relative;
   -webkit-overflow-scrolling: touch;
     &.isJrfwFgj{
@@ -131,7 +133,7 @@ export default {
       background-color: @cf;
       -webkit-overflow-scrolling: touch;
         // overflow-x: hidden;
-        //   overflow-y: auto;
+      /*overflow-y: auto;*/
         >*{
           height: 100%;
           overflow-x: hidden;
