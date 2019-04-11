@@ -16,21 +16,21 @@
           <ul>
             <li>
               <th-cell :cellData="{title:'流程与详情'}"></th-cell>
-                <div class="th_property_list-item-info">
-                  <div><span>活动详情：</span></div>
-                  <div class="content"><span>{{promoteDetail.content}}</span></div>
-                  <div><span>适用范围：</span><span>{{promoteDetail.useRange}}</span></div>
-                  <div><span>使用方法：</span><span>{{promoteDetail.useMethod}}</span></div>
-                  <div><span>服务承诺：</span><span>{{promoteDetail.service}}</span></div>
-                </div>
+              <div class="th_property_list-item-info">
+                <div><span>活动详情：</span></div>
+                <div class="content"><span>{{promoteDetail.content}}</span></div>
+                <div><span>适用范围：</span><span>{{promoteDetail.useRange}}</span></div>
+                <div><span>使用方法：</span><span>{{promoteDetail.useMethod}}</span></div>
+                <div><span>服务承诺：</span><span>{{promoteDetail.service}}</span></div>
+              </div>
             </li>
             <li>
               <th-cell :cellData="{title:'楼盘详情'}"></th-cell>
-                <table class="th_property_list-item-info">
-                  <tr><td>均&emsp;&emsp;价：</td><td>{{promoteDetail.price}}元/㎡</td></tr>
-                  <tr><td>开盘时间：</td><td>{{promoteDetail.beginSellDate | formatTime('YMD_')}}</td></tr>
-                  <tr><td>地&emsp;&emsp;址：</td><td>{{promoteDetail.address}}</td></tr>
-                </table>
+              <table class="th_property_list-item-info">
+                <tr><td>均&emsp;&emsp;价：</td><td>{{promoteDetail.price}}元/㎡</td></tr>
+                <tr><td>开盘时间：</td><td>{{promoteDetail.beginSellDate | formatTime('YMD_')}}</td></tr>
+                <tr><td>地&emsp;&emsp;址：</td><td>{{promoteDetail.address}}</td></tr>
+              </table>
             </li>
           </ul>
           <div class="th_promote_detail-more" @click="click"><span>更多详情</span></div>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import {setPromoteDetail, setSignUpPromote} from '../../../common/httpClient.js'
+import {setPromoteDetail, setSignUpPromote, setGroupMsnList} from '../../../common/httpClient.js'
 import ThFooter from './footer/footer'
 export default {
   data () {
@@ -98,8 +98,8 @@ export default {
         }})
     },
     /**
-     * 优惠活动报名，暂时无用，直接跳转报备
-     */
+       * 优惠活动报名，暂时无用，直接跳转报备
+       */
     signUp () {
       let data = {
         'accountId': this.userInfo.id,
@@ -117,8 +117,17 @@ export default {
       })
     },
     chat () {
-      // params: {id: this.propertyId}
-      this.$router.push({name: 'chat'})
+      let data = {
+        'accountId': this.userInfo.id,
+        'bulidingGroupId': this.promoteDetail.buildingGroupId,
+        'otherAccountId': '',
+        'pageNo': 1,
+        'pageSize': 10
+      }
+      setGroupMsnList(data).then((res) => {
+        let cont = res && res.content
+        this.$router.push({path: '/chat/' + cont.groupId})
+      })
     },
     fromDate () {
       let nowDate = new Date().getTime()
@@ -137,73 +146,73 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.th_promote_detail{
-  height: 100%;
-  position: relative;
-  .linkBtn{
-    position: absolute;
-    top: 0;
-    left: .6rem;
-    z-index: 100;
-    font-size: @FontSize17;
-    line-height: @headerHeight;
-    color: @cf;
-    width: @headerHeight;
-    height: @headerHeight;
-  }
-  .th_promote_detail-box{
-    .th_promote_detail-img{
-      padding-top: @imgBase;
+  .th_promote_detail{
+    height: 100%;
+    position: relative;
+    .linkBtn{
+      position: absolute;
+      top: 0;
+      left: .6rem;
+      z-index: 100;
+      font-size: @FontSize17;
+      line-height: @headerHeight;
+      color: @cf;
+      width: @headerHeight;
+      height: @headerHeight;
     }
-    .th_promote_detail-cont{
-      padding: 0 @plrPage;
-      font-size: @defaultFontSize;
-      color: @c3;
-      .th_promote_detail-title{
-        line-height: 1.5rem;
-        font-size: @FontSize15;
-        font-weight: bold;
-        span{
-          color: @cD14E33;
-        }
+    .th_promote_detail-box{
+      .th_promote_detail-img{
+        padding-top: @imgBase;
       }
-      .th_promote_detail-info{
-        color: @c9;
-        font-size: @smallFontSize;
-        margin: .5rem 0 1rem;
-      }
-      .th_property_list-item-info{
-        .content span{
-          width: 100% !important;
-          padding-left: 24px !important;
-        }
-        div{
+      .th_promote_detail-cont{
+        padding: 0 @plrPage;
+        font-size: @defaultFontSize;
+        color: @c3;
+        .th_promote_detail-title{
+          line-height: 1.5rem;
+          font-size: @FontSize15;
+          font-weight: bold;
           span{
-            line-height: 1.25rem;
-            vertical-align: top;
-            &:first-child{
-              width: 4.5rem;
-              height: 0;
-              overflow: hidden;
-              color: @c9;
-            }
-            &:last-child{
-              padding-left: .5rem;
-            }
+            color: @cD14E33;
+          }
+        }
+        .th_promote_detail-info{
+          color: @c9;
+          font-size: @smallFontSize;
+          margin: .5rem 0 1rem;
+        }
+        .th_property_list-item-info{
+          .content span{
+            width: 100% !important;
+            padding-left: 24px !important;
+          }
+          div{
             span{
-              max-width: calc(100% - .6rem);
-              padding-right: 1rem;
+              line-height: 1.25rem;
+              vertical-align: top;
+              &:first-child{
+                width: 4.5rem;
+                height: 0;
+                overflow: hidden;
+                color: @c9;
+              }
+              &:last-child{
+                padding-left: .5rem;
+              }
+              span{
+                max-width: calc(100% - .6rem);
+                padding-right: 1rem;
+              }
             }
           }
         }
-      }
-      .th_promote_detail-more{
-        color: @cD14E33;
-        text-align: center;
-        font-size: @smallFontSize;
-        line-height: 2rem;
+        .th_promote_detail-more{
+          color: @cD14E33;
+          text-align: center;
+          font-size: @smallFontSize;
+          line-height: 2rem;
+        }
       }
     }
   }
-}
 </style>

@@ -23,7 +23,7 @@
             </table>
             <svg>
               <circle cx="100" cy="60" r="25" stroke-width="1" stroke="#D8D8D8" fill="#3347D1" />
-              <text x="82.25" dy="65" style="font-size:15px;fill:white">{{buildScore.scoreNum}}分</text>
+              <text x="90" dy="65" style="font-size:15px;fill:white">{{buildScore.scoreNum}}分</text>
               <circle cx="100" cy="60" r="50" stroke-width="1" stroke="#D8D8D8" fill="none" />
               <circle cx="100" cy="60" r="50" stroke-width="2" stroke="#3347D1" fill="none" :stroke-dasharray=" buildScore.scoreNum*Math.PI*50*(2/5) +' '+ 2*Math.PI*50" stroke-linecap='round' transform="rotate(-90, 100 60)"></circle>
             </svg>

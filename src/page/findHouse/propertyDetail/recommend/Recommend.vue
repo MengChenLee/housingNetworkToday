@@ -1,6 +1,12 @@
 <template>
   <div class="th_recommend">
-    <div :class="{'is_fixed' : isFixed}" id="fixedHeaderRoot">
+    <div :class="{'is_fixed' : isFixed}" id="fixedHeader" v-show="recommend.recommendFix">
+      <mt-navbar v-model="selected">
+        <mt-tab-item id="1">同价格</mt-tab-item>
+        <mt-tab-item id="2">同区域</mt-tab-item>
+      </mt-navbar>
+    </div>
+    <div :class="{'is_fixed' : isFixed}" v-show="!recommend.recommendFix">
       <mt-navbar v-model="selected">
         <mt-tab-item id="1">同价格</mt-tab-item>
         <mt-tab-item id="2">同区域</mt-tab-item>
@@ -58,35 +64,21 @@ export default {
   computed: {
 
   },
-  created () {
-  },
-  watch: {
-  },
-  mounted () {
-    window.addEventListener('scroll', this.handleScroll)
-  },
   activated () {
   },
   methods: {
-    handleScroll () {
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      console.log(scrollTop)
-    }
   }
-  // destroyed () {
-  //   window.removeEventListener('scroll', this.handleScroll)
-  // }
 }
 </script>
 
 <style lang="less" scoped>
 .th_recommend{
-  height: 100%;
+  /*height: 100%;*/
   & /deep/ .mint-navbar{
     width: 100%;
     height: 1.82rem;
     background-color:rgba(0, 0, 0, 0);
-    box-shadow:0 2px 0 0 rgba(216,216,216,1),0px -2px 0px 0px rgba(216,216,216,0.5);
+    box-shadow:0 1px 0 0 rgba(216,216,216,1),0px -2px 0px 0px rgba(216,216,216,0.5);
     .mint-tab-item{
       padding: 0;
       .mint-tab-item-label{
@@ -101,12 +93,13 @@ export default {
     }
   }
   & /deep/ .mint-tab-container{
-    height: 100%;
+    height: 105%;
     .mint-tab-container-wrap{
       height: 100%;
       .mint-tab-container-item{
         height: 100%;
-        overflow: auto;
+        /*overflow: auto;*/
+        /*-webkit-overflow-scrolling: touch;*/
       }
     }
   }
@@ -116,6 +109,15 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     z-index: 999;
+  }
+  #fixedHeader{
+    width: 100%;
+    position: fixed;
+    top: @headerHeight;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    background-color: @cf;
   }
 }
 </style>

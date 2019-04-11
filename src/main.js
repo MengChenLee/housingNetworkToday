@@ -113,7 +113,6 @@ Vue.prototype.wxShare = function (data, mask = false) {
     if (window.jrfw.getIsWxClient()) {
       document.getElementById('shareImg').style = 'display:block'
     } else if (window.jrfw.isApp()) {
-      // console.log(data)
       window.jrfw.setShare(_dealWxShareData(data))
     } else {
       Toast({
@@ -124,9 +123,9 @@ Vue.prototype.wxShare = function (data, mask = false) {
       return
     }
   }
-  config(function () {
-    document.getElementById('shareImg').style = 'display:none'
+  config(function (mask) {
     share(_dealWxShareData(data))
+    // document.getElementById('shareImg').style = 'display:none'
   })
 }
 

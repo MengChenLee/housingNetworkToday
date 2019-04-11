@@ -1,6 +1,6 @@
 <template>
   <div class="th_property_detail">
-    <th-layout ref="layBox">
+    <th-layout ref="layBox" v-if="reFresh">
       <div class="th_property_detail-cont" ref="cont">
         <th-swiper :bannerList="bannerList" v-if="bannerList" @click="goBrowserRes"></th-swiper>
         <th-base-info :baseInfo="baseInfo" v-if="baseInfo" @openSubscribe="openSubscribe"></th-base-info>
@@ -11,7 +11,7 @@
         <th-building :baseInfo="baseInfo" v-if="baseInfo"></th-building>
         <th-surrounding :baseInfo="baseInfo" v-if="baseInfo"></th-surrounding>
         <th-exchange :buildScore="buildScore" v-if="buildScore"></th-exchange>
-        <th-recommend :recommend="recommend" v-if="recommend"></th-recommend>
+        <th-recommend :recommend="recommend" v-if="recommend" id="recommend"></th-recommend>
       </div>
       <th-footer
         slot="footer"
@@ -62,11 +62,13 @@ export default {
       dynamicNum: 0,
       recommend: {
         nearBuildingList: null,
-        samePriceList: null
+        samePriceList: null,
+        recommendFix: false
       },
       newsList: [],
       isFavorite: false, // 是否收藏
       shareInfo: {},
+      reFresh: true,
       popupVisible: false, // 订阅面板
       booking: null // 订阅的数据
     }
@@ -92,29 +94,47 @@ export default {
       return this.$store.state.locate.location
     }
   },
-  // beforeRouteUpdate (to, from, next) {
-  //   this.id = to.params.id
-  //   this.$refs.cont.scrollTop = 0
-  //   to.meta.scrollTop = 0
-  //   next()
-  // },
+  beforeRouteUpdate (to, from, next) {
+    this.id = to.params.id
+    this.setPropertyDetail()
+    this.$refs.cont.scrollTop = 0
+    to.meta.scrollTop = 0
+    next()
+  },
   created () {
-    console.log(this.$route.params.id)
+  },
+  mounted () {
   },
   activated () {
     this.id = this.$route.params.id
     this.setPropertyDetail()
   },
+  updated () {
+    document.getElementsByClassName('th_property_detail-cont')[0].addEventListener('scroll', this.handleScroll)
+  },
   methods: {
+    // 获取滚动条高度
+    handleScroll () {
+      let recommendOffsetTop = document.getElementById('recommend').offsetTop
+      let recommendScrollTop = document.getElementsByClassName('th_property_detail-cont')[0].scrollTop
+      if (recommendOffsetTop < recommendScrollTop) {
+        this.recommend.recommendFix = true
+      } else {
+        this.recommend.recommendFix = false
+      }
+      // console.log(document.getElementById('recommend').offsetTop)
+    },
     setPropertyDetail () {
       let data = {
         'accountId': this.userInfo.id,
         'id': this.id,
         'lat': this.location.lat,
-        'lng': this.location.lng,
-        'loginToken': this.userInfo.loginToken
+        'lng': this.location.lng
+        // 'loginToken': this.userInfo.loginToken
       }
+      this.reFresh = false
       setPropertyDetail(data).then((res) => {
+        this.reFresh = true
         let cont = res && res.content
         this.bannerList.push({linkUrl: '', picPath: cont.buildingInfo.logo})
         this.bannerList = cont.buildingInfo && cont.buildingInfo.attachment
@@ -126,8 +146,7 @@ export default {
         this.buildScore = cont.buildScore
         this.dynamic = cont.buildingNews
         this.dynamicNum = cont.newsNum
-        this.$set(this.recommend, 'nearBuildingList', cont.nearBuildingList)
-        this.$set(this.recommend, 'nearBuildingList', cont.nearBuildingList)
+        // this.$set(this.recommend, 'nearBuildingList', cont.nearBuildingList)
         this.recommend.nearBuildingList = cont.nearBuildingList
         this.recommend.samePriceList = cont.samePriceList
         this.shareInfo = cont.shareInfo
@@ -136,7 +155,6 @@ export default {
         this.booking = cont.booking
         document.title = this.baseInfo.name
         this.$route.meta.title = this.baseInfo.name
-        this.$refs.layBox.headerRefresh()
       })
     },
     openSubscribe () {

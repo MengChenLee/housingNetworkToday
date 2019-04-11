@@ -169,6 +169,13 @@ export function setMyList (params) { return post('setMyList', params) }
 export function setMsnListById (params) { return post('setMsnListById', params) }
 
 /**
+ * 获取群聊信息
+ * @param {Object} params 请求参数
+ * @returns {Promise} 返回的promise对象
+ */
+export function getCompanyMsnList (params) { return post('getCompanyMsnList', params) }
+
+/**
  * 群聊
  * @param {Object} params 请求参数
  * @returns {Promise} 返回的promise对象

@@ -1,5 +1,5 @@
 <template>
-  <div class="th_chat">
+  <div class="th_chat" :style="{height: `${screenHeight}px`}">
     <th-layout>
       <div class="th_chat-header" slot="header">
         <th-back-btn></th-back-btn>
@@ -9,7 +9,7 @@
         </router-link>
       </div>
       <div class="contBox" id="contBox">
-        <div class="th_chat-cont" ref="cont" @scroll="loadMore">
+        <div class="th_chat-cont" ref="cont" id="cont" @scroll="loadMore" v-show="reFresh">
           <div class="more_loading">
             <span v-show="loading&&!allLoaded">加载中...</span>
             <span v-show="allLoaded">已全部加载</span>
@@ -17,11 +17,12 @@
           <th-chat-item :chatData="list" :accountId='userInfo.id'></th-chat-item>
         </div>
       </div>
-      <th-footer slot="footer" @send="send"></th-footer>
     </th-layout>
+    <th-footer slot="footer" @send="send" class="th-footer" @scrollTop="scrollTop"></th-footer>
   </div>
 </template>
 <script>
+// , getCompanyMsnList, setGroupMsnList, setChatMsnList
 import {sendMsn, setMsnListById} from '../../../common/httpClient.js'
 import ThChatItem from './chatItem/ChatItem.vue'
 import ThBackBtn from '../../../components/base/backBtn/BackBtn.vue'
@@ -30,14 +31,24 @@ export default {
   data () {
     return {
       groupId: '',
+      groupType: '',
       list: [],
+      listRelize: [],
       ing: true,
       // 初始化无限加载相关参数setMsnListById,
       pageNo: 1,
       otherAccountId: this.$route.query.accountId || '',
       bulidingGroupId: '',
       loading: false, // 加载中
-      allLoaded: true // 全部加载
+      reFresh: false,
+      allLoaded: true, // 全部加载
+      data: {}
+      // screenHeight: document.body.clientHeight
+    }
+  },
+  watch: {
+    screenHeight (val) {
+      this.screenHeight = val
     }
   },
   computed: {
@@ -45,35 +56,39 @@ export default {
       return this.$store.state.user.user
     }
   },
-  watch: {
-  },
   components: {
     ThChatItem,
     ThFooter,
     ThBackBtn
   },
   created () {
-    this.groupId = this.$route.params.id
-    console.log(this.groupId)
-    this.setMsnListById()
+    this.buidingGroupId = this.$route.params.id
+    this.groupType = this.$route.query.groupType
   },
   mounted () {
+    // const that = this
+    // window.onresize = () => {
+    //   return (() => {
+    //     window.screenHeight = document.body.clientHeight
+    //     that.screenHeight = window.screenHeight
+    //   })()
+    // }
     this.scrollTop()
   },
   updated () {
     this.scrollTop()
   },
   activated () {
-    this.scrollTop()
     this.groupId = this.$route.params.id
     this.otherAccountId = this.$route.query.accountId || ''
     this.pageNo = 1
     this.setMsnListById()
+    this.scrollTop()
   },
   methods: {
     scrollTop () {
       this.$nextTick(() => {
-        let container = this.$el.querySelector('#contBox')
+        let container = this.$el.querySelector('#cont')
         container.scrollTop = container.scrollHeight
       })
     },
@@ -85,6 +100,7 @@ export default {
       }
     },
     setMsnListById () {
+      this.reFresh = false
       let data = {
         'accountId': this.userInfo.id,
         'groupId': this.groupId,
@@ -94,19 +110,13 @@ export default {
       setMsnListById(data).then((res) => {
         this.loading = false
         if (res && res.code === 1) {
+          this.reFresh = true
           let cont = res && res.content
           this.allLoaded = cont.msnList.length !== 15
           if (this.pageNo === 1) {
             this.list = cont.msnList
-            this.$nextTick(() => {
-              this.$refs.cont.scrollTop = this.$refs.cont.scrollHeight
-            })
           } else {
-            let scrollHeight = JSON.parse(JSON.stringify(this.$refs.cont.scrollHeight))
             this.list.splice(0, 0, ...cont.msnList)
-            this.$nextTick(() => {
-              this.$refs.cont.scrollTop = this.$refs.cont.scrollHeight - scrollHeight
-            })
           }
         } else {
           this.toast(res.msg || '加载失败')
@@ -124,6 +134,7 @@ export default {
       // private String description;// 楼盘标签
       // private String lat;
       // private String lng;
+      // private Integer groupType;// 1 在线咨询 2 公司房聊 3私聊 4报备利益链群聊
       // console.log(this.groupId)
       let data = {
         'accountId': this.userInfo.id,
@@ -132,9 +143,7 @@ export default {
       sendMsn(Object.assign(data, sendData)).then((res) => {
         let cont = res && res.content
         this.list.push(cont)
-        this.$nextTick(() => {
-          this.$refs.cont.scrollTop = this.$refs.cont.scrollHeight
-        })
+        this.scrollTop()
       })
     }
   }
@@ -143,28 +152,51 @@ export default {
 <style lang="less" scoped>
 .th_chat{
   height: 100%;
+  position: relative;
+  .th-footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+  }
   .th_chat-header{
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: normal; */
+    align-items: center;
+    width: calc(100% - 20px);
     line-height: @headerHeight;
     text-align: center;
     font-size: @FontSize17;
     color: @cf;
     padding: 0 10px;
+    transform: translateZ(0);
+    span{
+      display: flex;
+      width: 100%;
+      justify-content: center;
+    }
     .th_chat-item-img{
       width: 1.5rem;
       position: absolute;
       top: 50%;
-      right: .5rem;
+      right: 0;
       color: @cf;
-      transform: translateY(-50%);
+      transform: translate(-10px,-50%,0);
     }
   }
   .contBox{
     background-color: @cF5F5F5;
   }
   .th_chat-cont{
-    box-sizing: border-box;
-    /*overflow-y: scroll;*/
+    /*box-sizing: border-box;*/
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 </style>

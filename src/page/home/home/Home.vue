@@ -4,7 +4,7 @@
       <th-home-header></th-home-header>
       <baidu-map @ready="handler"></baidu-map>
     </div>
-    <div ref='cont' v-infinite-scroll="loadMore" infinite-scroll-distance="20">
+    <div ref='cont' v-infinite-scroll="loadMore" infinite-scroll-distance="20" id="scrollHome">
       <th-swiper :bannerList="homeData && homeData.topAds" ></th-swiper>
       <th-menu :menuList="homeData && homeData.iconLink"></th-menu>
       <th-cell :isHomeCell="true" :isHaveArrow="true" :cellData="cellData['news']"></th-cell>
@@ -192,6 +192,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  #scrollHome{
+
+  }
 .th_locate{
   position: relative;
   padding-right:1rem;

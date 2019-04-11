@@ -21,6 +21,13 @@ export default {
   computed: {
 
   },
+  watch: {
+    oncontextmenu () {
+      document.oncontextmenu = function () {
+        return false
+      }
+    }
+  },
   mounted () {
 
   },
@@ -41,12 +48,18 @@ export default {
   .th_img-box-cont{
     width: 100%;
     height: 100%;
-    background-size: 100%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
     position: absolute;
     background-position: center;
     top: 0;
     left: 0;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
     user-select: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
   }
 }
 </style>

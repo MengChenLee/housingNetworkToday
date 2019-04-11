@@ -1,14 +1,8 @@
 <template>
   <div id="app">
-    <div class="downloadAPP" ref="downloadAPPBg" v-show="appShow" @click="appDownLoad">
-      <img class="APPImg" ref="APPImg"
+    <div class="downloadAPP" ref="downloadAPPBg" @click="appDownLoad">
+      <img class="APPImg" ref="APPImg" v-show="showAPP"
            :src="roles===5 ? 'http://img.jrfw360.com/108_108%E7%BB%BF.png' : (type>3 ? 'http://img.jrfw360.com/108_108%E9%BB%84.png' : 'http://img.jrfw360.com/108_108%E8%93%9D.png')"/>
-      <!--<div class="quickClick">
-        <span>{{APPName}}</span>
-        <span>{{APPInfo}}</span>
-      </div>
-      <span class="btnOpen" @click="appDownLoad">点击下载</span>
-      <img :src="close" alt="" class="close" @click="clickClose">-->
     </div>
     <div class="app" ref="app">
       <keep-alive :exclude="['homeMap','propertyReport']">
@@ -33,8 +27,7 @@ import Vue from 'vue'
 import common from './components/common'
 import pictureBrowser from './components/pictureBrowser/PictureBrowser.vue'
 import {getByAccountId} from './common/httpClient.js'
-import util from './common/util'
-import close from './assets/close.png'
+import util from './common/util.js'
 // import jrfw from './assets/jrfw_top_bg.png'
 [
   common
@@ -45,37 +38,38 @@ export default {
   name: 'App',
   data () {
     return {
-      appShow: false,
       popupVisible: false,
       defaultIndex: 0,
       picList: [],
       data: {},
       type: '',
       roles: '',
-      APPName: '',
-      APPInfo: '',
-      close: close
+      accountId: '',
+      loginToken: '',
+      showAPP: true
     }
   },
   components: {
     pictureBrowser
   },
   created () {
+    document.getElementById('shareImg').style.display = 'none'
   },
   mounted () {
-    let isAPP = util.isApp()
-    if (isAPP === true) {
-      this.clickClose()
+    if (util.isApp()) {
+      this.showAPP = false
     } else {
-      this.appShow = true
+      this.showAPP = true
     }
     this.setWxShare()
     this.setPopup()
     this.setDealLink()
     this.setUserInfo()
   },
+  updated () {
+    this.setUserInfo()
+  },
   activated () {
-    // this.setUserInfo()
   },
   methods: {
     click (e) {
@@ -114,25 +108,34 @@ export default {
           authenticationFlag: res.authenticationFlag,
           loginToken: res.loginToken
         })
-        this.roles = res.roles
-        this.type = res.type
-        if (res.id || res.loginToken) {
-          this.data = {
-            'accountId': sessionStorage.getItem('myId') || res.id,
-            'loginToken': sessionStorage.getItem('loginToken') || res.loginToken
-          }
-          getByAccountId(this.data).then((res) => {
-            if (res && res.code === 1) {
-              let userInfo = res.content.account
-              this.roles = userInfo.roles
-              this.type = userInfo.type
-            } else {
-              this.toast(res.msg || '加载失败')
-            }
-          })
-        } else {
-          this.$router.push({name: 'home'})
+        this.accountId = res.id
+        this.loginToken = res.loginToken
+        let data = {
+          'accountId': sessionStorage.getItem('myId') || this.accountId,
+          'loginToken': sessionStorage.getItem('loginToken') || this.loginToken
         }
+        // let _this = this
+        getByAccountId(data).then((res) => {
+          if (res && res.code === 1) {
+            let userInfo = res.content.account
+            this.roles = userInfo.roles
+            this.type = userInfo.type
+            this.$store.commit('user/setUser', {
+              id: userInfo.id,
+              phone: userInfo.phone,
+              userName: userInfo.yyUser.userName,
+              avatar: userInfo.yyUser.avatar,
+              type: userInfo.type,
+              authenticationFlag: userInfo.yyUser.authenticationFlag,
+              loginToken: userInfo.loginToken
+            })
+          } else {
+            // this.toast(res.msg || '加载失败')
+            // setTimeout(function () {
+            //   _this.$router.push({name: 'home'})
+            // }, 3000)
+          }
+        })
       })
     },
     setDealLink () {
@@ -173,17 +176,25 @@ export default {
       }
       return theRequest
     },
-    clickClose () {
-      this.appShow = false
-      this.$refs.app.style.padding = 0
-    },
     appDownLoad () {
-      if (this.roles === 5) {
-        location.href = ''
-      } else if (this.type > 3) {
-        location.href = 'https://a.app.qq.com/o/simple.jsp?pkgname=com.housing.network.broker'
+      if (this.roles === 5 || this.type >= 9) {
+        if (navigator.userAgent.match(/Android/i)) {
+          location.href = 'https://a.app.qq.com/o/simple.jsp?pkgname=com.housing.network.steward'
+        } else if (navigator.userAgent.match(/iphone|ipod|ipad/i)) {
+          location.href = 'https://itunes.apple.com/cn/app/%E8%84%89%E6%A5%BC/id1457937506?mt=8'
+        }
+      } else if (this.type > 3 && this.type < 9) {
+        if (navigator.userAgent.match(/Android/i)) {
+          location.href = 'https://a.app.qq.com/o/simple.jsp?pkgname=com.housing.network.broker'
+        } else if (navigator.userAgent.match(/iphone|ipod|ipad/i)) {
+          location.href = 'https://itunes.apple.com/cn/app/%E6%88%BF%E7%BB%8F%E7%BA%AA/id1456333516?mt=8'
+        }
       } else {
-        location.href = 'https://a.app.qq.com/o/simple.jsp?pkgname=com.housing.network.app'
+        if (navigator.userAgent.match(/Android/i)) {
+          location.href = 'https://a.app.qq.com/o/simple.jsp?pkgname=com.housing.network.app'
+        } else if (navigator.userAgent.match(/iphone|ipod|ipad/i)) {
+          location.href = 'https://itunes.apple.com/cn/app/%E4%BB%8A%E6%97%A5%E6%88%BF%E7%BD%91/id1457181046?mt=8'
+        }
       }
     }
   }
@@ -200,9 +211,6 @@ export default {
     margin:0 auto;
     position: relative;
     text-align: justify;
-    -webkit-overflow-scrolling: touch;
-    -webkit-backface-visibility: hidden;
-    -webkit-transform: translate3d(0,0,0);
     .downloadAPP{
       width: 2.25rem;
       height: 2.25rem;
@@ -211,7 +219,6 @@ export default {
       top: 70% !important;
       right: 0;
       z-index: 1999;
-      -webkit-overflow-scrolling: touch;
       img.APPImg{
         width: 100%;
         height: 100%;
@@ -229,11 +236,6 @@ export default {
         color: @cf;
         border-radius: 0.25rem;
         text-align: center;
-      }
-      img.close{
-        width: 1rem;
-        height: 1rem;
-        padding-right: 0.5rem;
       }
       .quickClick{
         width: 45%;
@@ -300,12 +302,15 @@ export default {
       margin-top: 30px;
       margin-left: 20%;
     }
+    input{
+      -webkit-appearance: none;
+    }
   }
 </style>
 <style lang="less" scoped>
   #app .browserPicture{
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,1);
+    background-color: rgba(0,0,0,0);
   }
 </style>

@@ -5,7 +5,7 @@
         <ul>
           <li v-for="(item,i) in list" :key="i">
             <p>{{item.title}}</p>
-            <div>{{item.content}}</div>
+            <!--<div>{{item.content}}</div>-->
           </li>
         </ul>
         <div class="more_loading">

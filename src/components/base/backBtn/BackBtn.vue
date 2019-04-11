@@ -14,18 +14,13 @@ export default {
   },
   data () {
     return {
-      arrPath: [],
-      fristPath: ''
     }
   },
   computed: {
 
   },
   mounted () {
-    // this.fristPath = this.$route.name
-    // console.log(this.fristPath)
-  },
-  activated () {
+
   },
   created () {
   },
@@ -37,8 +32,8 @@ export default {
         if (window.history.length > 1) {
           history.back()
         } else {
-          window.location.replace('http://h5.jrfw360.com/home')
-          // window.location.href = 'http://h5.jrfw360.com/home'
+          // window.location.replace('http://h5.jrfw360.com/home')
+          window.location.href = 'https://h5.jrfw360.com/home'
         }
       } else {
         history.back()
@@ -50,7 +45,7 @@ export default {
 
 <style lang="less" scoped>
 .back{
-  width: 0;
+  width: 0rem;
   height: 100%;
   float: left;
   .th_back_btn{

@@ -1,14 +1,14 @@
 <template>
     <div class="th_chat-footer" ref="inputBoxContainer">
-      <div class="th_chat-fun">
-        <span class="imgBox voice" @click="openApp"><th-img-box class="th_chat-item-img" :imgUrl="recording?keyboard:voiceImg"></th-img-box></span>
-        <span class="centerBox">
-          <div v-if="recording" @touchstart="recordingStart" @touchend="recordingEnd">按住&nbsp;&nbsp;&nbsp;说话</div>
-          <input v-else type="text" placeholder="请输入文字" v-model="content" @click="focus" @focus="focus" @blur="blur"/>
+      <div class="th_chat-fun" ref="chatFun">
+        <span class="imgBox voice" @click="changeRecording"><th-img-box class="th_chat-item-img" :imgUrl="recording?keyboard:voiceImg"></th-img-box></span>
+        <span class="centerBox" ref="input" @click.native="inputFocus" @touchend="inputFocus">
+          <div v-show="recording" @touchstart="recordingStart" @touchend="recordingEnd">按住&nbsp;&nbsp;&nbsp;说话</div>
+          <input v-show="!recording" type="text" placeholder="请输入文字" v-model="content" id="focus" @focus="focus" @blur="blur"/>
         </span>
         <div class="imgBox send" v-if="focusFlag" @click="send">发送</div>
         <!-- <span class="imgBox" v-if="!focusFlag"><th-img-box class="th_chat-item-img" :imgUrl="expression"></th-img-box></span> -->
-        <span class="imgBox" v-if="!focusFlag"><th-img-box class="th_chat-item-img" :imgUrl="chatAdd" @click="showMenu"></th-img-box></span>
+        <span class="imgBox add" v-if="!focusFlag"><th-img-box class="th_chat-item-img" :imgUrl="chatAdd" @click.native="showMenu"></th-img-box></span>
       </div>
       <ul class="menuList" :class="{hidden:menuHidden}">
         <li @click="sendImg">
@@ -75,20 +75,22 @@ export default {
   computed: {
 
   },
-  mounted () {
-
-  },
-  created () {
-  },
   methods: {
     changeRecording () {
       this.recording = !this.recording
     },
+    inputFocus () {
+      this.$el.querySelector('#focus').focus()
+    },
     focus () {
+      this.$refs.input.style.width = this.$refs.input.offsetWidth - 42 + 'px'
       this.focusFlag = true
       this.menuHidden = true
     },
     blur () {
+      window.scrollTo(0, document.body.scrollTop - 1)
+      this.$emit('scrollTop')
+      this.$refs.input.style.width = this.$refs.inputBoxContainer.offsetWidth - 78 + 'px'
       this.focusFlag = false
     },
     showMenu () {
@@ -188,7 +190,8 @@ export default {
     send () {
       if (!this.content) {
         this.toast('不能发布空信息')
-        this.focusFlag = true
+        this.$el.querySelector('#focus').focus()
+        // this.$refs.input.
         return
       }
       let data = {
@@ -205,8 +208,9 @@ export default {
 <style lang="less" scoped>
 .th_chat-footer{
     width: 100%;
+  /*height: 55px;*/
     background-color: @cf;
-    position: fixed;
+    position: absolute;
     z-index: 10;
     bottom: 0;
     left: 0;
@@ -219,16 +223,23 @@ export default {
       line-height: @footerHeight;
       display: flex;
       align-items:center;
+      position: relative;
       .imgBox{
-        display: inline-block;
+        position: absolute;
+        /*display: inline-block;*/
         width: 1.1rem;
-        margin: @plrPage;
+        padding: @plrPage;
         &.voice{
-          padding: .1rem;
+          left: 0;
+          /*padding: .1rem;*/
+        }
+        &.add{
+          right: 0;
         }
         &.send{
+          right: 4px;
           width: 2.5rem;
-          line-height: 1.5rem;
+          line-height: 0.5rem;
           color: @cf;
           font-size: @defaultFontSize;
           text-align: center;
@@ -237,7 +248,11 @@ export default {
         }
       }
       .centerBox{
-        flex: 1;
+        width: calc(100% - 78px);
+        position: absolute;
+        top: 50%;
+        left: 38px;
+        transform: translateY(-50%);
         height: 1rem;
         line-height: 1rem;
         font-size: @FontSize13;
@@ -247,14 +262,16 @@ export default {
         display: inline-block;
         overflow: hidden;
         user-select:none;
+        -webkit-user-select: none;
         input{
           width: 100%;
           line-height: 1rem;
           display:block;
           border: 0;
+          border-radius: .5rem;
           text-align: left;
           outline: none;
-          padding-left: .5rem;
+          padding: 0 0.5rem;
           background-color: @cF5F5F5;
           box-sizing: border-box;
           -webkit-user-select: auto !important;

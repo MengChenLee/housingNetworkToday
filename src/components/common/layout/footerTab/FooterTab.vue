@@ -93,8 +93,8 @@ export default {
 .th_footer{
   width: 100%;
   height: 55px;
-  position: absolute;
-  z-index: 10;
+  position: fixed;
+  z-index: 100;
   bottom: 0;
   left: 0;
   & /deep/ .mint-tabbar{

@@ -13,7 +13,7 @@
             <th-header v-if="hackReset"></th-header>
           </slot>
       </div>
-      <div class="th_laybox-cont" ref="layBoxCont">
+      <div class="th_laybox-cont" ref="layBoxCont" v-if="hackReset">
           <slot></slot>
       </div>
       <div class="th_laybox-footer">
@@ -63,10 +63,15 @@ export default {
     pageValue (val) {
       window.jrfw.isFirstScreen(val) && (this.active = val)
     },
-    scrollTop () {
-    },
     active (val) {
       // this.$router.push(val)
+    },
+    scroll () {
+      document.querySelector('body').addEventListener('touchmove', function (e) {
+        if (!document.querySelector('.th_laybox').contains(e.target)) {
+          e.preventDefault()
+        }
+      })
     }
   },
   activated () {
@@ -90,12 +95,12 @@ export default {
 </script>
 <style lang="less" scoped>
 .th_laybox{
-  height: calc(100%  - @footerHeight);
-  padding-top: @headerHeight;
-  box-sizing: border-box;
-  overflow-y: scroll;
-  position: relative;
-  -webkit-overflow-scrolling: touch;
+    height: calc(100%  - 55px);
+    padding-top: @headerHeight;
+    box-sizing: border-box;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
     &.isJrfwFgj{
       .th_laybox-header{
         .lineargGradientFgj;
@@ -119,21 +124,18 @@ export default {
         }
     }
     .th_laybox-header{
-      width: 100%;
-      height: @headerHeight;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 10;
-      .lineargGradient;
+        width: 100%;
+        height: @headerHeight;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        .lineargGradient;
     }
     .th_laybox-cont{
-      height: 100%;
-      position: relative;
-      background-color: @cf;
-      -webkit-overflow-scrolling: touch;
-        // overflow-x: hidden;
-      /*overflow-y: auto;*/
+        height: 100%;
+        position: relative;
+        background-color: @cf;
         >*{
           height: 100%;
           overflow-x: hidden;
@@ -143,7 +145,7 @@ export default {
     }
     .th_laybox-footer{
         width: 100%;
-        height: @footerHeight;
+        height: 55px;
         background-color: @cf;
         position: fixed;
         bottom: 0;

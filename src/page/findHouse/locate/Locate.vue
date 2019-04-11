@@ -46,6 +46,7 @@ export default {
       cityList: {},
       lastCity: [],
       selectedCityList: [],
+      selectedCityNameList: [],
       selectedAreaList: []
     }
   },
@@ -100,8 +101,10 @@ export default {
       let index = this.selectedCityList.indexOf(selectItem.id)
       if (index < 0) {
         this.selectedCityList.push(selectItem.id)
+        this.selectedCityNameList.push(selectItem.id)
       } else {
         this.selectedCityList.splice(index, 1)
+        this.selectedCityNameList.splice(index, 1)
         selectItem.cityList && selectItem.cityList.forEach((item) => {
           let _index = this.selectedAreaList.indexOf(item.id)
           _index > -1 && this.selectedAreaList.splice(_index, 1)
@@ -132,10 +135,11 @@ export default {
       if (window.jrfw.isJrfw() || window.jrfw.isJrfwFjj()) {
         window.jrfw.multipleSelectCity({
           cityIds: this.selectedCityList.join(','),
+          cityNames: this.selectedCityNameList.join(','),
           districtId: this.selectedAreaList.join(',')
         })
       } else {
-        console.log(this.selectedCityList, this.selectedAreaList)
+        // console.log(this.selectedCityList, this.selectedAreaList)
         sessionStorage.setItem('findHouse-selectedCity', this.selectedCityList.join(','))
         sessionStorage.setItem('findHouse-selectedArea', this.selectedAreaList.join(','))
         history.back()

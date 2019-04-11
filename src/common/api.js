@@ -82,6 +82,7 @@ const setInfoListById = baseUrl + '/system/getMsnList'
 // 获取聊天列表
 const setMyList = baseUrl + '/group/getMyList'
 const setMsnListById = baseUrl + '/group/getGroupMsnList'
+const getCompanyMsnList = baseUrl + '/group/getCompanyMsnList'
 const sendMsn = baseUrl + '/group/sendMsn'
 const setMsnMemberList = baseUrl + '/group/getGroupMemberList'
 const setChatMsnList = baseUrl + '/group/getChatMsnList'
@@ -153,6 +154,7 @@ const confirmChannel = baseUrl + '/invite/confirmChannel'
 const getChannelBuildings = baseUrl + '/invite/getChannelBuildings'
 const getDistributorBuildings = baseUrl + '/invite/getDistributorBuildings'
 export default {
+  getCompanyMsnList: getCompanyMsnList,
   getQuestionMsnList: getQuestionMsnList,
   confirmChannel: confirmChannel,
   getChannelBuildings: getChannelBuildings,

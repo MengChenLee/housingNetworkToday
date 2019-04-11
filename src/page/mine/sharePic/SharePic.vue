@@ -1,15 +1,8 @@
 <template>
   <div class="th_share_pic">
-    <!--<th-layout :hiddenFooter="true">-->
-      <!--<div class="th_share_pic-header" slot="header">-->
-        <!--<th-back-btn></th-back-btn>-->
-        <!--<span>{{$route.meta.title}}</span>-->
-        <!--<div class="th_share_pic-right" @click="share">分享</div>-->
-      <!--</div>-->
-      <div class="th_share_pic-cont" ref="cont" :hiddenFooter="true">
-        <img :src="list"/>
-      </div>
-    <!--</th-layout>-->
+    <div class="th_share_pic-cont" ref="cont" :hiddenFooter="true">
+      <img :src="list"/>
+    </div>
   </div>
 </template>
 
@@ -31,8 +24,8 @@ export default {
     }
   },
   created () {
-    this.share()
     this.getData()
+    // this.share()
   },
   activated () {
     this.share()

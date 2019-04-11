@@ -7,7 +7,7 @@
           <div class="th_chat_item-avater" v-if="accountId !== item.accountId">
             <th-img-box class="th_chat_item-img" :imgUrl="item.avatar"></th-img-box>
           </div>
-          <div class="th_chat_item-conter">{{item.content}}</div>
+          <div class="th_chat_item-conter">{{item.content || '请在APP上进行查看'}}</div>
           <div class="th_chat_item-avater" v-if="accountId === item.accountId">
             <th-img-box class="th_chat_item-img" :imgUrl="item.avatar"></th-img-box>
           </div>

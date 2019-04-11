@@ -3,7 +3,7 @@
     <th-layout ref="layBox" :hiddenFooter="true">
       <div class="th_chat_list-cont" ref="cont"  v-infinite-scroll="loadMore" infinite-scroll-distance="20">
         <ul>
-          <li v-for="(item,i) in list" :key="i" @click="goChat(item.id)">
+          <li v-for="(item,i) in list" :key="i" @click="goChat(item.id, item.groupType)">
             <th-img-text-level class="th_chat_list-item">
               <th-img-box class="th_chat_list-item-img" :imgUrl="item.picPath || baseIcon" slot="left"></th-img-box>
               <div class="th_chat_list-item-cont">
@@ -14,6 +14,7 @@
                 <div>{{item.lastMsn}}</div>
               </div>
             </th-img-text-level>
+            <i class="unReadInfo" v-if="item.unReadNum">{{item.unReadNum > 99 ? '99+' : item.unReadNum}}</i>
           </li>
         </ul>
         <div class="more_loading">
@@ -80,8 +81,8 @@ export default {
         }
       })
     },
-    goChat (id) {
-      this.$router.push({name: 'chat', params: {id: id}})
+    goChat (id, groupType) {
+      this.$router.push({name: 'chat', params: {id: id}, query: {groupType: groupType}})
     }
   }
 }
@@ -98,6 +99,7 @@ export default {
       padding: @plrPage;
       border-bottom: 1px solid @cD8D8D8;
       height: 2.5rem;
+      position: relative;
       .th_chat_list-item{
         /deep/ .th_img_text_level-left{
           width: 2.5rem;
@@ -108,6 +110,19 @@ export default {
             float: right;
           }
          }
+      }
+      .unReadInfo{
+        width: 1rem;
+        height: 1rem;
+        line-height: 1rem;
+        background-color: #D14E33;
+        font-size: 12px;
+        color: #ffffff;
+        border-radius: 50%;
+        position: absolute;
+        top: 2px;
+        left: 47px;
+        text-align: center;
       }
     }
   }

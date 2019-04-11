@@ -8,15 +8,17 @@
           v-model="submitData.type"
           :options="radioList">
         </mt-radio>
-        <div class="th_feedback-cont-box">
-          <textarea class="th_feedback-cont" v-model="submitData.content" placeholder="请输入反馈内容"></textarea>
+        <div class="th_feedback-cont-box" @click="textareaFocus($event)">
+          <textarea class="th_textarea" id="th_feedback-cont" v-model="submitData.content" placeholder="请输入反馈内容"></textarea>
         </div>
         <p class="th_feedback-customer-service">客服电话<a href="tel:400-0000-0000">400-0000-0000</a></p>
       </div>
-      <div slot="footer" class="th_feedback-footer">
-        <span @click="submit">确认</span>
-      </div>
     </th-layout>
+    <div class="th_feedback-footer">
+      <div class="submit" @click="submit">
+        <span>确认</span>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -54,6 +56,10 @@ export default {
           this.toast(res.msg || '获取反馈类型失败')
         }
       })
+    },
+    textareaFocus (e) {
+      e.stopPropagation() || e.preventDefault()
+      this.$el.querySelector('#th_feedback-cont').focus()
     },
     submit () {
       let data = {
@@ -130,7 +136,7 @@ export default {
     }
     .th_feedback-cont-box{
       padding: .6rem;
-      .th_feedback-cont{
+      .th_textarea{
         width: 100%;
         height: 4rem;
         display: block;
@@ -143,6 +149,7 @@ export default {
         box-shadow:0px -1px 0px 0px rgba(0,0,0,0.2);
         border-radius:@borderRadius;
         border:1px solid @cD8D8D8;
+        -webkit-appearance: none;
       }
     }
     /deep/ .mint-cell{
@@ -204,6 +211,7 @@ export default {
       position: absolute;
       bottom: 0;
       left: 0;
+      z-index: 20;
       color: @c9;
       font-size: @smallFontSize;
       text-align: center;
@@ -216,21 +224,25 @@ export default {
   }
   .th_feedback-footer{
     width: 100%;
-    height: @footerHeight;
-    line-height: @footerHeight;
-    position: absolute;
-    z-index: 10;
-    bottom: 0;
-    left: 0;
-    text-align: right;
+    height: 55px;
+    line-height: 55px;
     color: @cTheme;
     border-top:1px solid @cD8D8D8;
-    span{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /*top: ;*/
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    .submit{
       width: 3.75rem;
       height: 1.4rem;
       line-height: 1.4rem;
       text-align: center;
-      display: inline-block;
       font-size:@FontSize13;
       background-color: @cTheme;
       border-radius: @borderRadius;

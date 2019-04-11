@@ -18,7 +18,6 @@
         <span v-else class="isFavorite">已收藏</span>
       </div>
     </th-layout>
-    <!--<a href="https://a.app.qq.com/o/simple.jsp?pkgname=com.zl.date" style="position: fixed;top: 40%;">打开APP</a>-->
   </div>
 </template>
 
@@ -75,7 +74,7 @@ export default {
       })
     },
     share () {
-      console.log('topShare')
+      // console.log('topShare')
       this.wxShare({
         title: this.shareInfo.title,
         imgUrl: this.shareInfo.imageUrl,
@@ -136,6 +135,8 @@ export default {
   }
   .th_news_detail-box{
     padding: 0 @plrPage;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     .th_news_detail-title{
       color: @c3;
       line-height: 1.5rem;

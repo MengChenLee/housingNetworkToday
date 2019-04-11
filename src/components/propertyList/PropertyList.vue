@@ -208,11 +208,12 @@ export default {
       } else if (this.isReward) {
         this.$router.push({path: `/rewardDetail/${item.id}`})
       } else {
-        if (this.name === 'recommend') {
-          this.$router.push({path: `/propertyDetail/${item.id}`, query: {id: 2}})
-        } else {
-          this.$router.push({path: `/propertyDetail/${item.id}`, query: {id: 1}})
-        }
+        this.$router.push({path: `/propertyDetail/${item.id}`})
+        // if (this.name === 'recommend') {
+        //   this.$router.push({path: `/propertyDetail/${item.id}`, query: {id: 2}})
+        // } else {
+        //   this.$router.push({path: `/propertyDetail/${item.id}`, query: {id: 1}})
+        // }
       }
     },
     setDistance (distance) {
