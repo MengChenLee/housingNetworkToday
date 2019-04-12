@@ -6,7 +6,7 @@
         <mt-tab-item id="2">同区域</mt-tab-item>
       </mt-navbar>
     </div>
-    <div :class="{'is_fixed' : isFixed}" v-show="!recommend.recommendFix">
+    <div :class="{'is_fixed' : isFixed}">
       <mt-navbar v-model="selected">
         <mt-tab-item id="1">同价格</mt-tab-item>
         <mt-tab-item id="2">同区域</mt-tab-item>

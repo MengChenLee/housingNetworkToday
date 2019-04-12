@@ -223,7 +223,7 @@ export default {
       }
       setGroupMsnList(data).then((res) => {
         let cont = res && res.content
-        this.$router.push({path: '/chat/' + cont.groupId})
+        this.$router.push({path: '/chat/' + cont.groupId, query: {groupType: 1, buildingGroupId: this.id}})
       })
     },
     share () {

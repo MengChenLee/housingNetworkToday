@@ -1,7 +1,7 @@
 <template>
-  <div class="th_feedback">
+  <div class="th_feedback" id="cont" ref="cont">
     <th-layout>
-      <div class="th_feedback-cont" ref="cont">
+      <div class="th_feedback-cont">
         <mt-radio
           class="th_feedback-radio"
           title="请选择反馈类型"
@@ -9,7 +9,7 @@
           :options="radioList">
         </mt-radio>
         <div class="th_feedback-cont-box" @click="textareaFocus($event)">
-          <textarea class="th_textarea" id="th_feedback-cont" v-model="submitData.content" placeholder="请输入反馈内容"></textarea>
+          <textarea class="th_textarea" id="th_feedback-cont" @focus="focusReF" v-model="submitData.content" @blur="blurReF"  placeholder="请输入反馈内容"></textarea>
         </div>
         <p class="th_feedback-customer-service">客服电话<a href="tel:400-0000-0000">400-0000-0000</a></p>
       </div>
@@ -26,6 +26,7 @@ import {setBaseInfoList, addFeedback} from '../../../common/httpClient.js'
 export default {
   data () {
     return {
+      bfscrolltop: document.body.scrollTop,
       val: '',
       radioList: [],
       submitData: {
@@ -41,6 +42,13 @@ export default {
   },
   created () {
     this.getData()
+  },
+  updated () {
+    document.getElementById('#th_feedback-cont').addEventListener('focus',
+      function () {
+        window.scrollTo(0, 0) // 页面滚动到顶部
+      }
+    )
   },
   methods: {
     getData () {
@@ -58,8 +66,28 @@ export default {
       })
     },
     textareaFocus (e) {
-      e.stopPropagation() || e.preventDefault()
+      // e.stopPropagation() || e.preventDefault()
       this.$el.querySelector('#th_feedback-cont').focus()
+    },
+    focusReF () {
+      // document.body.scrollTop = document.body.scrollHeight
+      this.$nextTick(() => {
+        let container = document.getElementById('cont')
+        container.scrollIntoView({
+          block: 'start',
+          behavior: 'auto'
+        })
+      })
+    },
+    blurReF () {
+      // document.body.scrollTop = this.bfscrolltop
+      this.$nextTick(() => {
+        let container = document.getElementById('cont')
+        container.scrollIntoView({
+          block: 'end',
+          behavior: 'auto'
+        })
+      })
     },
     submit () {
       let data = {
@@ -92,6 +120,8 @@ export default {
 <style lang="less" scoped>
 .th_feedback{
   height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   .th_feedback-cont{
     height: 100%;
     .th_feedback-radio{

@@ -64,8 +64,8 @@
                 </div>
               </span>
               </div>
-              <div class="th_property_list-item-info item-info">
-                <div class="th_property_list-item-size item-size">
+              <div class="th_property_list-item-info list-item-info">
+                <div class="th_property_list-item-size list-item-size">
                   <span class="roomArea">{{item.roomArea}}</span>
                   <i class="split"></i>
                   <span>{{item.roomType}}</span>
@@ -87,9 +87,7 @@
               <img class="th_property_list-item-video" src="./imgs/video.png" v-if="item.attachType===2"/>
               <img class="th_property_list-item-panoramic" src="./imgs/panoramic.png" v-if="item.attachType===3"/>
             </div>
-            <table class="th_property_list-item-info left">
-              <tr><td><div class="th_property_list-item-locate">{{item.provinceName}}{{item.cityName}}<i class="split"></i>{{item.distance}}</div></td></tr>
-            </table>
+            <div class="th_property_list-item-locate list-item-locate">{{item.provinceName}}{{item.cityName}}<i class="split"></i>{{item.distance}}</div>
             <ul class="th_property_list-item-tag" v-if="item.tags">
               <li v-for="(tagItem, i) in item.tags.split('-')" :key="i">
                 <div><span>{{tagItem}}</span></div>
@@ -209,6 +207,7 @@ export default {
         this.$router.push({path: `/rewardDetail/${item.id}`})
       } else {
         this.$router.push({path: `/propertyDetail/${item.id}`})
+        // window.location.hash = '/propertyDetail/' + item.id
         // if (this.name === 'recommend') {
         //   this.$router.push({path: `/propertyDetail/${item.id}`, query: {id: 2}})
         // } else {
@@ -369,6 +368,59 @@ export default {
               .split{
                 margin-top: 1px;
               }
+            }
+          }
+          .th_property_list-item-locate.list-item-locate{
+            float: left;
+            width: 50%;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            vertical-align: middle;
+            font-size: @smallFontSize;
+            transform: scale(0.83);
+            margin-left: -10.24%;
+            .split{
+              display: inline-block;
+              margin: 0 .2rem;
+              width: 2px;
+              height: 13px;
+              background-color: @c9;
+              vertical-align: middle;
+            }
+          }
+          .th_property_list-item-info.list-item-info{
+            width: 50%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            .split{
+              display: inline-block;
+              margin: 0 .2rem;
+              width: 2px;
+              height: 13px;
+              background-color: @c9;
+            }
+            .th_property_list-item-size{
+              width: 70%;
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-start;
+              align-items: center;
+              align-content: center;
+              float: right;
+            }
+            .th_property_list-item-size span{
+              display: inline-block;
+              text-overflow:ellipsis;
+              white-space:nowrap;
+              width: 50%;
+              float: right;
+            }
+            .th_property_list-item-price{
+              width: 36%;
+              color: @cE4805E;
+              font-size: @smallFontSize;
+              text-align: right;
             }
           }
           .th_property_list-item-info{

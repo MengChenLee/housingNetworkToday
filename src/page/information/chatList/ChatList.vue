@@ -3,7 +3,7 @@
     <th-layout ref="layBox" :hiddenFooter="true">
       <div class="th_chat_list-cont" ref="cont"  v-infinite-scroll="loadMore" infinite-scroll-distance="20">
         <ul>
-          <li v-for="(item,i) in list" :key="i" @click="goChat(item.id, item.groupType)">
+          <li v-for="(item,i) in list" :key="i" @click="goChat(item.id, item.groupType, str (item.groupName))">
             <th-img-text-level class="th_chat_list-item">
               <th-img-box class="th_chat_list-item-img" :imgUrl="item.picPath || baseIcon" slot="left"></th-img-box>
               <div class="th_chat_list-item-cont">
@@ -81,8 +81,12 @@ export default {
         }
       })
     },
-    goChat (id, groupType) {
-      this.$router.push({name: 'chat', params: {id: id}, query: {groupType: groupType}})
+    str (groupName) {
+      let index = groupName.indexOf('-')
+      return groupName.substring(index + 1, groupName.length)
+    },
+    goChat (id, groupType, groupName) {
+      this.$router.push({name: 'chat', params: {id: id}, query: {groupType: groupType, groupName: groupName}})
     }
   }
 }

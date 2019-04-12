@@ -1,5 +1,5 @@
 <template>
-  <div class="th_property_report">
+  <div class="th_property_report" id="cont">
     <th-layout>
       <div class="th_property_report-cont" ref="cont">
         <div >
@@ -66,16 +66,16 @@
           </li>
           <li>
             <div class="title">客户电话<span>（系统将做隐号处理）</span></div>
-            <input type="number" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" v-model="submitData.phone"   placeholder="请输入到访客户电话"/>
+            <input type="number" @focus="focusReF" @blur="blurReF" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" v-model="submitData.phone"   placeholder="请输入到客户电话"/>
             <span class="add"><span class="addPhoneNumber"></span></span>
           </li>
           <li class="noRequire">
             <div class="title">备用电话<span>（系统将做隐号处理）</span></div>
-            <input type="number" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" v-model="submitData.backPhone"  placeholder="请输入到访客户备用电话"/>
+            <input type="number" @focus="focusReF" @blur="blurReF" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" v-model="submitData.backPhone"  placeholder="请输入到客户备用电话"/>
           </li>
           <li>
             <div class="title">到访人数</div>
-            <input v-model="submitData.visitorNum"  placeholder="请输入到访人数"/>
+            <input type="number" v-model="submitData.visitorNum" @focus="focusReF" @blur="blurReF"  placeholder="请输入到访人数"/>
           </li>
         </ul>
         <div class="th_property_report-service">
@@ -89,7 +89,7 @@
           </mt-cell>
         </div>
 
-        <textarea class="th_property_report-remark" v-model="submitData.remark" placeholder="请输入备注" maxlength="100"></textarea>
+        <textarea class="th_property_report-remark" @focus="focusReF" @blur="blurReF" v-model="submitData.remark" placeholder="请输入备注" maxlength="100"></textarea>
         <div class="th_property_report-remark-length">{{submitData.remark.length}}/100</div>
       </div>
       <div class="th_property_report-footer" @click="submit" slot="footer">
@@ -155,16 +155,6 @@ export default {
       reportData && (this.submitData = Object.assign(this.submitData, JSON.parse(reportData)))
       sessionStorage.setItem('reportData', '')
     } catch (error) {}
-    // try {
-    //   // 楼盘选择-楼盘id
-    //   let selectList = sessionStorage.getItem('selectPropertyList')
-    //   if (selectList) {
-    //     this.selectList = JSON.parse(selectList)
-    //     this.$set(this.submitData, 'firstId', this.selectList[0])
-    //     this.$set(this.submitData, 'secondId', this.selectList[1])
-    //     this.$set(this.submitData, 'thirdId', this.selectList[2])
-    //   }
-    // } catch (error) {}
     try {
       // 楼盘选择-楼盘name
       let selectTextList = sessionStorage.getItem('selectPropertyTextList')
@@ -187,6 +177,26 @@ export default {
     sessionStorage.setItem('report-content')
   },
   methods: {
+    focusReF () {
+      // document.body.scrollTop = document.body.scrollHeight
+      this.$nextTick(() => {
+        let container = document.getElementById('cont')
+        container.scrollIntoView({
+          block: 'start',
+          behavior: 'auto'
+        })
+      })
+    },
+    blurReF () {
+      // document.body.scrollTop = this.bfscrolltop
+      this.$nextTick(() => {
+        let container = document.getElementById('cont')
+        container.scrollIntoView({
+          block: 'end',
+          behavior: 'auto'
+        })
+      })
+    },
     openDatePicker (num) {
       this.pickerNum = num
       this.$refs.datePicker.open()

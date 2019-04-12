@@ -1,6 +1,6 @@
 <template>
   <div class="th_home_other">
-    <div class="th_home_other-cell"  :class="cellData.title==='今日优推'? 'isHaveArrow' : 'arrow'">
+    <div class="th_home_other-cell"  :class="cellData.title==='今日优推'? 'isHaveArrow' : (cellData.title==='附近地图'? 'isArrowAfter' : 'arrow')">
       {{cellData.title}}
       <div class="th_home_other-cell-rigth" @click="click" v-show="cellData.title==='今日优推'? false : true">
         <slot><div>更多</div></slot>
@@ -32,7 +32,6 @@ export default {
 
   },
   mounted () {
-    // console.log(this.isHaveArrow)
   },
   created () {
   },
@@ -66,6 +65,11 @@ export default {
       top: 50%;
       left: 0;
       margin-top: -10.5px
+    }
+    &.isArrowAfter{
+      .th_home_other-cell-rigth{
+        right: .5rem;
+      }
     }
     &.arrow{
       .th_home_other-cell-rigth{

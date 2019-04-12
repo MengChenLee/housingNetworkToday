@@ -3,7 +3,7 @@
     <th-layout>
       <div class="th_chat-header" slot="header">
         <th-back-btn></th-back-btn>
-        <span>{{$route.meta.title}}</span>
+        <span>{{$route.query.groupName}}</span>
         <router-link class="th_chat-item-img" :to="'/chatMemberList/'+groupId">
           ···
         </router-link>
@@ -18,7 +18,7 @@
         </div>
       </div>
     </th-layout>
-    <th-footer slot="footer" @send="send" class="th-footer" @scrollTop="scrollTop"></th-footer>
+    <th-footer slot="footer" @send="send" class="th-footer" @scrollTop="scrollTopSend"></th-footer>
   </div>
 </template>
 <script>
@@ -43,12 +43,6 @@ export default {
       reFresh: false,
       allLoaded: true, // 全部加载
       data: {}
-      // screenHeight: document.body.clientHeight
-    }
-  },
-  watch: {
-    screenHeight (val) {
-      this.screenHeight = val
     }
   },
   computed: {
@@ -66,14 +60,6 @@ export default {
     this.groupType = this.$route.query.groupType
   },
   mounted () {
-    // const that = this
-    // window.onresize = () => {
-    //   return (() => {
-    //     window.screenHeight = document.body.clientHeight
-    //     that.screenHeight = window.screenHeight
-    //   })()
-    // }
-    this.scrollTop()
   },
   updated () {
     this.scrollTop()
@@ -87,6 +73,19 @@ export default {
   },
   methods: {
     scrollTop () {
+      if (this.pageNo === 1) {
+        this.$nextTick(() => {
+          let container = this.$el.querySelector('#cont')
+          container.scrollTop = container.scrollHeight
+        })
+      } else {
+        this.$nextTick(() => {
+          let container = this.$el.querySelector('#cont')
+          container.scrollTop = container.offsetHeight - container.scrollTop
+        })
+      }
+    },
+    scrollTopSend () {
       this.$nextTick(() => {
         let container = this.$el.querySelector('#cont')
         container.scrollTop = container.scrollHeight
@@ -143,7 +142,7 @@ export default {
       sendMsn(Object.assign(data, sendData)).then((res) => {
         let cont = res && res.content
         this.list.push(cont)
-        this.scrollTop()
+        this.scrollTopSend()
       })
     }
   }
@@ -184,8 +183,14 @@ export default {
       position: absolute;
       top: 50%;
       right: 0;
+      font-size: @FontSize18;
+      font-family: '宋体';
       color: @cf;
-      transform: translate(-10px,-50%,0);
+      font-weight: bolder;
+      letter-spacing: -10px;
+      text-indent: -10px;
+      text-align: center;
+      transform: translate(-10px,-50%);
     }
   }
   .contBox{

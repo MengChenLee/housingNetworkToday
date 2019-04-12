@@ -1,7 +1,7 @@
 <template>
-  <div class="th_property_report">
+  <div class="th_property_report" ref="cont" id="cont">
     <th-layout>
-      <div class="th_property_report-cont" ref="cont">
+      <div class="th_property_report-cont">
         <div v-if="submitData.firstId">
           <mt-cell
             title="报备楼盘"
@@ -66,15 +66,15 @@
           </li>
           <li>
             <div class="title">客户电话<span>（系统将做隐号处理）</span></div>
-            <input v-model="submitData.phone"   placeholder="请输入到访客户电话"/>
+            <input v-model="submitData.phone"  @focus="focusReF" @blur="blurReF" type="number" placeholder="请输入到访客户电话"/>
           </li>
           <li class="noRequire">
             <div class="title">备用电话<span>（系统将做隐号处理）</span></div>
-            <input v-model="submitData.backPhone"  placeholder="请输入到访客户备用电话"/>
+            <input v-model="submitData.backPhone" type="number" @focus="focusReF" @blur="blurReF" placeholder="请输入到访客户备用电话"/>
           </li>
           <li>
             <div class="title">到访人数</div>
-            <input v-model="submitData.visitorNum"  placeholder="请输入到访人数"/>
+            <input v-model="submitData.visitorNum" @focus="focusReF" @blur="blurReF" type="number" placeholder="请输入到访人数"/>
           </li>
         </ul>
         <div class="th_property_report-service">
@@ -88,7 +88,7 @@
           </mt-cell>
         </div>
 
-        <textarea class="th_property_report-remark" v-model="submitData.remark" placeholder="请输入备注" maxlength="100"></textarea>
+        <textarea class="th_property_report-remark" v-model="submitData.remark" @focus="focusReF" @blur="blurReF" placeholder="请输入备注" maxlength="100"></textarea>
         <div class="th_property_report-remark-length">{{submitData.remark.length}}/100</div>
       </div>
       <div class="th_property_report-footer" @click="submit" slot="footer">
@@ -108,6 +108,7 @@ export default {
   name: 'propertyReport',
   data () {
     return {
+      reFresh: true,
       pickerNum: 1,
       selectList: [],
       selectTextList: [],
@@ -186,6 +187,26 @@ export default {
     sessionStorage.setItem('report-content', '')
   },
   methods: {
+    focusReF () {
+      // document.body.scrollTop = document.body.scrollHeight
+      this.$nextTick(() => {
+        let container = document.getElementById('cont')
+        container.scrollIntoView({
+          block: 'start',
+          behavior: 'auto'
+        })
+      })
+    },
+    blurReF () {
+      // document.body.scrollTop = this.bfscrolltop
+      this.$nextTick(() => {
+        let container = document.getElementById('cont')
+        container.scrollIntoView({
+          block: 'end',
+          behavior: 'auto'
+        })
+      })
+    },
     openDatePicker (num) {
       this.pickerNum = num
       this.$refs.datePicker.open()
@@ -243,22 +264,32 @@ export default {
       sessionStorage.setItem('reportData', JSON.stringify(this.submitData))
     },
     submit () {
-      let data = Object.assign({}, this.submitData, {
-        'accountId': this.userInfo.id
-      })
-      delete data.visitText
-      setPropertyReport(data).then(res => {
-        if (res && res.content) {
-          this.toast(res.msg || '报备成功')
-          if (window.jrfw.isApp()) {
-            window.jrfw.back()
-          } else {
-            history.back()
-          }
-        } else {
-          this.toast(res.msg || '报备失败')
+      if (this.submitData.phone === '') {
+        this.toast('手机号不能为空')
+      } else if (!(/^1[345678]\d{9}$/.test(this.submitData.phone))) {
+        this.toast('主手机号不合法')
+      } else if (this.submitData.backPhone) {
+        if (!(/^1[345678]\d{9}$/.test(this.submitData.backPhone))) {
+          this.toast('备用手机号不合法')
         }
-      })
+      } else {
+        let data = Object.assign({}, this.submitData, {
+          'accountId': this.userInfo.id
+        })
+        delete data.visitText
+        setPropertyReport(data).then(res => {
+          if (res && res.content) {
+            this.toast(res.msg || '报备成功')
+            if (window.jrfw.isApp()) {
+              window.jrfw.back()
+            } else {
+              history.back()
+            }
+          } else {
+            this.toast(res.msg || '报备失败')
+          }
+        })
+      }
     }
   }
 }

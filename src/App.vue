@@ -53,7 +53,6 @@ export default {
     pictureBrowser
   },
   created () {
-    document.getElementById('shareImg').style.display = 'none'
   },
   mounted () {
     if (util.isApp()) {

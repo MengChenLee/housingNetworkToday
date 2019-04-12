@@ -1,6 +1,18 @@
 <template>
   <div class="th-chat" >
     <ul>
+      <!--<li v-for="(item,i) in chatData" :key="i" class="th_chat_item">-->
+        <!--<div class="th_chat_item-time" v-if="item.createDate">{{item.createDate | formatTime('YMDHMS')}}</div>-->
+        <!--<div class="th_chat_item-wrap" :class="{'owner':accountId === item.accountId}">-->
+          <!--<div class="th_chat_item-avater" v-if="accountId !== item.accountId">-->
+            <!--<th-img-box class="th_chat_item-img" :imgUrl="item.avatar"></th-img-box>-->
+          <!--</div>-->
+          <!--<div class="th_chat_item-conter">{{item.content || '请在APP上进行查看'}}</div>-->
+          <!--<div class="th_chat_item-avater" v-if="accountId === item.accountId">-->
+            <!--<th-img-box class="th_chat_item-img" :imgUrl="item.avatar"></th-img-box>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</li>-->
       <li v-for="(item,i) in chatData" :key="i" class="th_chat_item">
         <div class="th_chat_item-time" v-if="item.createDate">{{item.createDate | formatTime('YMDHMS')}}</div>
         <div class="th_chat_item-wrap" :class="{'owner':accountId === item.accountId}">

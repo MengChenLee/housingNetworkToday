@@ -82,7 +82,7 @@ export default {
           }
           this.cityList[item.pinyin].push(item)
         })
-        console.log(this.cityList)
+        // console.log(this.cityList)
       })
     },
     setCity (selectItem) {
