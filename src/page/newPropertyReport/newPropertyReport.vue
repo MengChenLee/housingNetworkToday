@@ -7,7 +7,7 @@
             title="报备楼盘"
             isLink
             @click.native='selectProperty'>
-            <span class="color999">请选择报备楼盘</span>
+            <span class="color999">{{this.selectTextList[0] || '请选择报备楼盘'}}</span>
           </mt-cell>
           <mt-cell
             :class="{placeholder:!submitData.firstVisitTime}"
@@ -67,9 +67,9 @@
           <li>
             <div class="title">客户电话<span>（系统将做隐号处理）</span></div>
             <input type="number" @focus="focusReF" @blur="blurReF" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" v-model="submitData.phone"   placeholder="请输入到客户电话"/>
-            <span class="add"><span class="addPhoneNumber"></span></span>
+            <span class="add" @click="clickTarget"><span :class="addPhoneNumber === false ? 'decrease' : 'addPhoneNumber'"></span></span>
           </li>
-          <li class="noRequire">
+          <li class="noRequire" v-show="!addPhoneNumber">
             <div class="title">备用电话<span>（系统将做隐号处理）</span></div>
             <input type="number" @focus="focusReF" @blur="blurReF" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" v-model="submitData.backPhone"  placeholder="请输入到客户备用电话"/>
           </li>
@@ -109,12 +109,13 @@ export default {
   name: 'newPropertyReport',
   data () {
     return {
+      addPhoneNumber: true,
       pickerNum: 1,
       selectList: [],
       selectTextList: [],
       selectPropertyRemarkList: [],
       submitData: {
-        'firstId': this.$route.params.id,
+        'firstId': 0,
         'firstVisitTime': '',
         'secondId': 0,
         'secondVisitTime': '',
@@ -144,7 +145,7 @@ export default {
   components: {
     ThDatePicker
   },
-  created () {
+  activated () {
     // 添加默认的楼盘
     // this.selectList.push(this.$route.params.id)
     // this.selectTextList.push(this.$route.query.buildingGroupName)
@@ -156,13 +157,24 @@ export default {
       sessionStorage.setItem('reportData', '')
     } catch (error) {}
     try {
-      // 楼盘选择-楼盘name
-      let selectTextList = sessionStorage.getItem('selectPropertyTextList')
-      selectTextList && (this.selectTextList = JSON.parse(selectTextList))
+      // 楼盘选择-楼盘id
+      let selectList = sessionStorage.getItem('newSelectPropertyList')
+      if (selectList) {
+        this.selectList = JSON.parse(selectList)
+        this.$set(this.submitData, 'firstId', this.selectList[0])
+        this.$set(this.submitData, 'secondId', this.selectList[1])
+        this.$set(this.submitData, 'thirdId', this.selectList[2])
+      }
     } catch (error) {}
     try {
+      // 楼盘选择-楼盘name
+      let selectTextList = sessionStorage.getItem('newSelectPropertyTextList')
+      selectTextList && (this.selectTextList = JSON.parse(selectTextList))
+    } catch (error) {}
+    // console.log(this.selectTextList)
+    try {
       // 楼盘选择-楼盘报备标注
-      let selectPropertyRemarkList = sessionStorage.getItem('selectPropertyRemarkList')
+      let selectPropertyRemarkList = sessionStorage.getItem('newSelectPropertyRemarkList')
       selectPropertyRemarkList && (this.selectPropertyRemarkList = JSON.parse(selectPropertyRemarkList))
     } catch (error) {}
 
@@ -171,12 +183,15 @@ export default {
       let reportCont = sessionStorage.getItem('report-content')
       reportCont && this.$set(this.submitData, 'content', sessionStorage.getItem('report-content'))
     } catch (error) {}
-    sessionStorage.clear('selectPropertyList')
-    sessionStorage.setItem('selectPropertyTextList')
-    sessionStorage.setItem('selectPropertyRemarkList')
+    sessionStorage.clear('newSelectPropertyList')
+    sessionStorage.setItem('newSelectPropertyTextList')
+    sessionStorage.setItem('newSelectPropertyRemarkList')
     sessionStorage.setItem('report-content')
   },
   methods: {
+    clickTarget () {
+      this.addPhoneNumber = !this.addPhoneNumber
+    },
     focusReF () {
       // document.body.scrollTop = document.body.scrollHeight
       this.$nextTick(() => {
@@ -202,6 +217,7 @@ export default {
       this.$refs.datePicker.open()
     },
     getDatePicker (time) {
+      // console.log(time)
       if (this.pickerNum === 2) {
         this.$set(this.submitData, 'secondVisitTime', time)
       } else if (this.pickerNum === 3) {
@@ -216,7 +232,7 @@ export default {
     goUrl () {
       if (!this.$route.query.back) {
         this.setSessionStorage()
-        this.$router.push({path: '/propertyServiceDetail/ss',
+        this.$router.push({path: '/propertyServiceDetail',
           query: {
             buildingGroupName: this.$route.query.buildingGroupName,
             back: 1
@@ -236,35 +252,54 @@ export default {
     selectProperty () {
       if (!this.$route.query.back) {
         this.setSessionStorage()
-        this.$router.push({path: `/selectProperty/ss`,
-          query: {
-            buildingGroupName: this.$route.query.buildingGroupName,
-            reportRemark: this.$route.query.reportRemark
-          }})
+        this.$router.push({path: '/newSelectProperty'})
       }
     },
     /**
      * 存储本地数据
      */
     setSessionStorage () {
-      sessionStorage.setItem('selectPropertyList', JSON.stringify(this.selectList))
-      sessionStorage.setItem('selectPropertyTextList', JSON.stringify(this.selectTextList))
-      sessionStorage.setItem('selectPropertyRemarkList', JSON.stringify(this.selectPropertyRemarkList))
+      sessionStorage.setItem('newSelectPropertyList', JSON.stringify(this.selectList))
+      sessionStorage.setItem('newSelectPropertyTextList', JSON.stringify(this.selectTextList))
+      sessionStorage.setItem('newSelectPropertyRemarkList', JSON.stringify(this.selectPropertyRemarkList))
       sessionStorage.setItem('report-content', this.submitData.content)
       sessionStorage.setItem('reportData', JSON.stringify(this.submitData))
     },
     submit () {
-      let data = Object.assign({}, this.submitData, {
-        'accountId': this.userInfo.id
-      })
-      delete data.visitText
-      setPropertyReport(data).then(res => {
-        if (res && res.content) {
-          this.toast(res.msg || '报备成功')
-        } else {
-          this.toast(res.msg || '报备失败')
+      if (this.submitData.phone === '') {
+        this.toast('手机号不能为空')
+      } else if (!(/^1[345678]\d{9}$/.test(this.submitData.phone))) {
+        this.toast('主手机号不合法')
+      } else if (this.submitData.backPhone) {
+        if (!(/^1[345678]\d{9}$/.test(this.submitData.backPhone))) {
+          this.toast('备用手机号不合法')
         }
-      })
+      } else {
+        if (this.submitData.firstVisitTime) {
+          this.submitData.firstVisitTime = this.submitData.firstVisitTime.getTime()
+        } else if (this.submitData.secondVisitTime) {
+          this.submitData.secondVisitTime = this.submitData.secondVisitTime.getTime()
+        } else if (this.submitData.thirdVisitTime) {
+          this.submitData.thirdVisitTime = this.submitData.thirdVisitTime.getTime()
+        }
+        this.submitData.visitorNum = +this.submitData.visitorNum
+        let data = Object.assign({}, this.submitData, {
+          'accountId': 58
+        })
+        delete data.visitText
+        setPropertyReport(data).then(res => {
+          if (res && res.content) {
+            this.toast(res.msg || '报备成功')
+            if (window.jrfw.isApp()) {
+              window.jrfw.back()
+            } else {
+              history.back()
+            }
+          } else {
+            this.toast(res.msg || '报备失败')
+          }
+        })
+      }
     }
   }
 }
@@ -350,6 +385,24 @@ export default {
                 background-color: @c9;
               }
               &:after{
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 3px;
+                height: @defaultFontSize;
+                background-color: @c9;
+                transform: rotateZ(90deg);
+              }
+            }
+            .decrease{
+              position: absolute;
+              top: 0;
+              /*right: 50%;*/
+              width: @defaultFontSize;
+              background-color: @c9;
+              transform: translateX(-50%);
+              &:before{
                 content: '';
                 position: absolute;
                 top: 0;

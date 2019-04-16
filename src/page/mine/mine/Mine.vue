@@ -180,6 +180,7 @@ export default {
     ThFooterTab
   },
   mounted () {
+    console.log(this.userInfo.id)
     sessionStorage.setItem('houseTypePrice', '')
   },
   created () {
@@ -210,6 +211,8 @@ export default {
               'type': userInfo.type || ''
             })
           } else {
+            sessionStorage.clear()
+            localStorage.clear()
             this.toast(res.msg || '加载失败')
           }
         })

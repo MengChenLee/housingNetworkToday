@@ -34,6 +34,7 @@ export default {
     if (!this.$route.query.code) {
       this.gologin()
     } else {
+      console.log(this.$route.query.code)
       let params = {
         code: this.$route.query.code,
         id: this.$route.query.id
@@ -79,7 +80,7 @@ export default {
       let appid = api.appid
       let url = window.location.href
       let state = 'jrfw360' // 授权用户 绑定账号生成
-      var scope = 'snsapi_base' // snsapi_base 静默授权，snsapi_userinfo 弹出授权页面， snsapi_login 网页应用目前仅填写
+      var scope = 'snsapi_userinfo' // snsapi_base 静默授权，snsapi_userinfo 弹出授权页面， snsapi_login 网页应用目前仅填写
       window.location.href = 'http://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid + '&redirect_uri=' + encodeURIComponent(url) + '&response_type=code&scope=' + scope + '&state=' + state + '#wechat_redirect'
     }
   }

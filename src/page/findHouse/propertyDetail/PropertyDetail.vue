@@ -171,9 +171,11 @@ export default {
       addFavorite(data).then((res) => {
         if (res.code === 1) {
           this.isFavorite = res.content === 1
-          this.toast(res.msg || '收藏')
+          // this.toast(res.msg || '收藏')
+        } else if (!this.userInfo.id) {
+          this.toast('请先登陆...')
         } else {
-          this.toast('接口异常，请稍后再试')
+          this.toast(res.msg || '错误编号ox10001')
         }
       })
     },

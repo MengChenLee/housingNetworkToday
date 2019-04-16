@@ -64,6 +64,7 @@ export default {
     this.getData()
   },
   methods: {
+    // 获取所有城市 按拼音排序
     getData (name) {
       let data = {
         key: '99bf91bec40f5b30645d2612edced65aab2c27b7',
@@ -85,8 +86,8 @@ export default {
         // console.log(this.cityList)
       })
     },
+    // 获取选中城市的地区
     setCity (selectItem) {
-      // this.selectedCityList = []
       if (!selectItem.cityList) {
         let data = {
           key: '99bf91bec40f5b30645d2612edced65aab2c27b7',
@@ -97,11 +98,12 @@ export default {
           res && this.$set(selectItem, 'cityList', res.content)
         })
       }
+      // console.log(selectItem)
       this.lastCity.push(selectItem)
       let index = this.selectedCityList.indexOf(selectItem.id)
       if (index < 0) {
         this.selectedCityList.push(selectItem.id)
-        this.selectedCityNameList.push(selectItem.id)
+        this.selectedCityNameList.push(selectItem.name)
       } else {
         this.selectedCityList.splice(index, 1)
         this.selectedCityNameList.splice(index, 1)
@@ -120,6 +122,7 @@ export default {
       }
     },
     submit () {
+      // console.log(this.selectedCityList)
       if (this.selectedCityList.length === 1) {
         this.lastCity.forEach(item => {
           if (item.id === this.selectedCityList[0]) {
@@ -130,7 +133,13 @@ export default {
             return false
           }
         })
+      } else if (this.selectedCityList.length === 0) {
+        this.$store.commit('locate/setLocation', Object.assign({}, this.location, {
+          selectCityId: 0,
+          selectCity: ''
+        }))
       }
+      // console.log(this.location)
       // 今日房网专用
       if (window.jrfw.isJrfw() || window.jrfw.isJrfwFjj()) {
         window.jrfw.multipleSelectCity({
@@ -139,7 +148,7 @@ export default {
           districtId: this.selectedAreaList.join(',')
         })
       } else {
-        // console.log(this.selectedCityList, this.selectedAreaList)
+        console.log(this.selectedCityList, this.selectedAreaList)
         sessionStorage.setItem('findHouse-selectedCity', this.selectedCityList.join(','))
         sessionStorage.setItem('findHouse-selectedArea', this.selectedAreaList.join(','))
         history.back()

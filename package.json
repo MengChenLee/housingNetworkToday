@@ -16,6 +16,7 @@
   "dependencies": {
     "ali-oss": "^6.1.0",
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "js-md5": "^0.7.3",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",

@@ -11,6 +11,15 @@ const newPropertyReportRoutes = [
       title: '新客户报备',
       pageValue: 'newPropertyReport'
     }
+  },
+  {
+    path: '/newSelectProperty',
+    name: 'newSelectProperty',
+    component: resolve => require(['../page/newPropertyReport/newSelectProperty/newSelectProperty'], resolve),
+    meta: {
+      title: '收藏楼盘',
+      pageValue: 'newSelectProperty'
+    }
   }
 ]
 export default newPropertyReportRoutes

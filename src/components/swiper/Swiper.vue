@@ -21,6 +21,11 @@ export default {
   },
   data () {
     return {
+      swiperOption: {
+        width: window.innerWidth,
+        zoom: true,
+        initialSlide: 0
+      },
       msg: 'Welcome to Your Vue.js App'
     }
   },
@@ -48,12 +53,14 @@ export default {
   background-color: #999;
   position: relative;
   padding-top: @imgBanner;
+  overflow: hidden;
   & /deep/ .mint-swipe{
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     .mint-swipe-item{
+      overflow: hidden;
       .th_img-box{
         padding-top: @imgBanner
       }

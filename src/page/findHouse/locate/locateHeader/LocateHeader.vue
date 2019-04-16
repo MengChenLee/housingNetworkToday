@@ -39,7 +39,7 @@ export default {
       this.searchData = data
     },
     search () {
-      console.log(this.searchData)
+      // console.log(this.searchData)
       this.$emit('getData', this.searchData)
     }
   }

@@ -2,7 +2,7 @@
     <div class="th_base_info">
       <div class="th_base_info-item-title">
         <div>{{baseInfo.name}}</div>
-        <div v-if="baseInfo.buildingType">
+        <div v-if="baseInfo.buildingType" class="typeItem">
           <div v-for="(typeItem,i) in baseInfo.buildingType.split('-')" :key="i" >
             <span>{{typeItem}}</span>
           </div>
@@ -116,15 +116,24 @@ export default {
           overflow: hidden;
           position: relative;
           div{
+            div{
+              span{
+                .FontSize10;
+                margin-left: .2rem;
+              }
+              &:nth-child(3n+1) span{
+                color: @cTheme;
+              }
+              &:nth-child(3n+2) span{
+                color: @cD14E33;
+              }
+              &:nth-child(3n+3) span{
+                color: @cD19B33;
+              }
+            }
+          }
+          div{
             float: left;
-            span{
-              .FontSize10;
-              color: @cD14E33;
-              margin-left: .2rem;
-            }
-            &:nth-child(2n) span{
-              color: @cTheme;
-            }
           }
           .th_base_info-item-saleType{
             line-height: 1rem;

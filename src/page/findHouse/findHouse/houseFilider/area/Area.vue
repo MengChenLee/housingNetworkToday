@@ -207,6 +207,7 @@ export default {
         padding-left: @plrPage;
         box-sizing: border-box;
         overflow: auto;
+        -webkit-overflow-scrolling: touch;
         &:nth-child(2){
           background-color: @cF9F9F9;
         }

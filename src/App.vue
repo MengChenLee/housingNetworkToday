@@ -2,7 +2,7 @@
   <div id="app">
     <div class="downloadAPP" ref="downloadAPPBg" @click="appDownLoad">
       <img class="APPImg" ref="APPImg" v-show="showAPP"
-           :src="roles===5 ? 'http://img.jrfw360.com/108_108%E7%BB%BF.png' : (type>3 ? 'http://img.jrfw360.com/108_108%E9%BB%84.png' : 'http://img.jrfw360.com/108_108%E8%93%9D.png')"/>
+           :src="(roles===5 || this.type >= 9) ? 'http://img.jrfw360.com/108_108%E7%BB%BF.png' : ((type>3 && this.type < 9) ? 'http://img.jrfw360.com/108_108%E9%BB%84.png' : 'http://img.jrfw360.com/108_108%E8%93%9D.png')"/>
     </div>
     <div class="app" ref="app">
       <keep-alive :exclude="['homeMap','propertyReport']">
@@ -129,6 +129,8 @@ export default {
               loginToken: userInfo.loginToken
             })
           } else {
+            // sessionStorage.clear()
+            // localStorage.clear()
             // this.toast(res.msg || '加载失败')
             // setTimeout(function () {
             //   _this.$router.push({name: 'home'})
@@ -205,6 +207,7 @@ export default {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     max-width: @maxWidth;
     height:100%;
     margin:0 auto;
@@ -215,7 +218,7 @@ export default {
       height: 2.25rem;
       border-radius: 50%;
       position: absolute;
-      top: 70% !important;
+      top: 80% !important;
       right: 0;
       z-index: 1999;
       img.APPImg{

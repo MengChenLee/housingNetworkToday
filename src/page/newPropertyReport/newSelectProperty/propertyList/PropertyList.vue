@@ -47,58 +47,6 @@
           <div class="th_property_list-item-dynamic-flag">有新动态</div>
         </div>
       </div>
-      <!-- 上下结构显示三张图 -->
-      <div v-else-if="!isReward">
-        <div class="th_property_list-item-top ads">
-          <!-- <th-img-box class="th_property_list-item-img" :imgUrl="item.logo"></th-img-box> -->
-          <!-- <div class="th_property_list-item-saleType" :class="{onsale:item.saleType ==='在售'}">{{item.saleType}}</div> -->
-          <!-- <img class="th_property_list-item-video" src="./imgs/video.png" v-if="item.attachType===2"/>
-          <img class="th_property_list-item-panoramic" src="./imgs/panoramic.png" v-if="item.attachType===3"/> -->
-          <div class="th_property_list-item-cont">
-            <div class="item-cont">
-              <div class="th_property_list-item-title">
-                <div>{{item.name}}</div>
-                <span v-if="item.buildingType">
-                <div v-for="(typeItem,i) in item.buildingType.split('-')" :key="i">
-                  <span class="typeItem">{{typeItem}}</span>
-                </div>
-              </span>
-              </div>
-              <div class="th_property_list-item-info list-item-info">
-                <div class="th_property_list-item-size list-item-size">
-                  <span class="roomArea">{{item.roomArea}}</span>
-                  <i class="split"></i>
-                  <span>{{item.roomType}}</span>
-                </div>
-                <div class="th_property_list-item-price">{{item.price}}元/㎡</div>
-              </div>
-            </div>
-            <p class="th_property_list-item-dynamic" v-if="item.newsTitle">{{item.newsTitle}}</p>
-            <div class="th_property_list-item-img-wrap">
-              <ul class="th_property_list-item-img-list">
-                <li v-for="(imgItem,imgIndex) in item.attachment" :key="imgIndex">
-                  <th-img-box class="th_property_list-item-img" :imgUrl="imgItem.picPath"></th-img-box>
-                </li>
-                <li v-if="item.attachment.length===0">
-                  <th-img-box class="th_property_list-item-img" :imgUrl="item.logo"></th-img-box>
-                </li>
-              </ul>
-              <div class="th_property_list-item-saleType" :class="{onsale:item.saleType ==='在售'}">{{item.saleType}}</div>
-              <img class="th_property_list-item-video" src="./imgs/video.png" v-if="item.attachType===2"/>
-              <img class="th_property_list-item-panoramic" src="./imgs/panoramic.png" v-if="item.attachType===3"/>
-            </div>
-            <div class="th_property_list-item-locate list-item-locate">{{item.provinceName}}{{item.cityName}}<i class="split"></i>{{item.distance}}</div>
-            <ul class="th_property_list-item-tag" v-if="item.tags">
-              <li v-for="(tagItem, i) in item.tags.split('-')" :key="i">
-                <div><span>{{tagItem}}</span></div>
-              </li>
-            </ul>
-            <div class="th_property_list-item-bg" v-if="item.activityTypePic">
-              <th-img-box class="th_property_list-item-img" :imgUrl="item.activityTypePic"></th-img-box>
-            </div>
-          </div>
-        </div>
-      </div>
       <!--奖励 左右结构显示一张图 -->
       <div v-else :class="{isReward:item.bounsNum}">
         <th-img-text-level class="th_property_list-item-top">
@@ -163,6 +111,7 @@ export default {
   },
   data () {
     return {
+      index1: -1,
       msg: 'Welcome to Your Vue.js App',
       name: this.$route.name
     }
@@ -181,20 +130,14 @@ export default {
   },
   methods: {
     click (item) {
-      // console.log(this.selectList)
       if (this.selectAble) {
         let _index = this.selectList.indexOf(item.id + '')
         if (_index > -1) { // 最后一个不允许删除
-          if (this.selectList.length > 1) {
-            this.selectList.splice(_index, 1)
-            this.selectTextList.splice(_index, 1)
-            this.selectPropertyRemarkList.splice(_index, 1)
-          }
+          this.selectList.splice(_index, 1)
+          this.selectTextList.splice(_index, 1)
+          this.selectPropertyRemarkList.splice(_index, 1)
         } else {
-          // if (this.$route.query.source === 'client') {
-
-          // }
-          if (this.selectList.length < 3 || this.$route.query.source === 'client') {
+          if (this.selectList.length <= 3 || this.$route.query.source === 'client') {
             this.selectList.push(item.id + '')
             this.selectTextList.push(item.name)
             this.selectPropertyRemarkList.push(item.reportRemark)
@@ -207,12 +150,6 @@ export default {
         this.$router.push({path: `/rewardDetail/${item.id}`})
       } else {
         this.$router.push({path: `/propertyDetail/${item.id}`})
-        // window.location.hash = '/propertyDetail/' + item.id
-        // if (this.name === 'recommend') {
-        //   this.$router.push({path: `/propertyDetail/${item.id}`, query: {id: 2}})
-        // } else {
-        //   this.$router.push({path: `/propertyDetail/${item.id}`, query: {id: 1}})
-        // }
       }
     },
     setDistance (distance) {
@@ -521,9 +458,6 @@ export default {
             width: 100%;
             padding: 0;
             margin-top: -.1rem;
-            overflow: hidden;
-            text-overflow:ellipsis;
-            white-space:nowrap;
           }
           .th_property_list-item-img-wrap{
             position: relative;
@@ -553,9 +487,6 @@ export default {
         line-height: 1rem;
         position: relative;
         font-size: @smallFontSize;
-        overflow: hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
         &.selectAble{
           width: calc(100% + @plrPage - 103px - 3rem);
           padding-left: 3rem;

@@ -40,15 +40,15 @@ const recommendRoutes = [
       pageValue: 'aboutUs'
     }
   },
-  {
-    path: '/demo',
-    name: 'demo',
-    component: resolve => require(['../page/recommend/demo/demo.vue'], resolve),
-    meta: {
-      title: 'demo',
-      pageValue: 'demo'
-    }
-  },
+  // {
+  //   path: '/demo',
+  //   name: 'demo',
+  //   component: resolve => require(['../page/recommend/demo/demo.vue'], resolve),
+  //   meta: {
+  //     title: 'demo',
+  //     pageValue: 'demo'
+  //   }
+  // },
   {
     path: '/protocol',
     name: 'protocol',

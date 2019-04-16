@@ -128,7 +128,6 @@ export default {
         'content': '', // 购房意向
         'sex': 1 // 1：男；2:女
       }
-
     }
   },
   computed: {

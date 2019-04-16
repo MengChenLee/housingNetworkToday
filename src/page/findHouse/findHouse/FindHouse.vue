@@ -82,6 +82,7 @@ export default {
     }
   },
   mounted () {
+    // console.log(this.select)
   },
   created () {
     sessionStorage.setItem('findHouse-selectedArea', '')
@@ -91,10 +92,13 @@ export default {
   activated () {
     if (sessionStorage.getItem('findHouse-selectedCity')) {
       this.$set(this.select, 'cityIds', sessionStorage.getItem('findHouse-selectedCity'))
+    } else {
+      this.$set(this.select, 'cityIds', this.location.selectCityId || this.location.cityId)
     }
     this.$set(this.select, 'districtId', sessionStorage.getItem('findHouse-selectedArea'))
     // 搜索页返回数据填充
     this.$set(this.select, 'buildingGroupName', this.$route.params.search)
+    // console.log(this.select)
     this.setFindHouseData()
     this.setFindCondition()
   },

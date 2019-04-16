@@ -6,7 +6,7 @@
         class="th_map-baidu"
         :center="center"
         :zoom="zoom"
-        :minZoom='8'
+        :minZoom='1'
         @ready="handler"
         @zoomend="zoomend"
         @dragend="dragend"
@@ -44,6 +44,7 @@
   </div>
 </template>
 <script>
+// {BmlMarkerClusterer}
 import {setMapList} from '../../../common/httpClient.js'
 import {BmlMarkerClusterer} from 'vue-baidu-map'
 import MyOverlay from './myOverlay/MyOverlay.vue'
@@ -54,8 +55,8 @@ export default {
   data () {
     return {
       center: {lng: this.$route.query.lng, lat: this.$route.query.lat},
-      zoom: 11,
-      changeZoom: 11.5,
+      zoom: 100,
+      changeZoom: 100.5,
       points: [],
       pointIds: [],
       map: null,
@@ -85,8 +86,6 @@ export default {
     location () {
       return this.$store.state.locate.location
     }
-  },
-  created () {
   },
   watch: {
     points: {
@@ -147,7 +146,7 @@ export default {
       this.setMapList(4, this.map.getDistance(pointA, pointB).toFixed(2) / 2)
     },
     locationSuccess ({point, AddressComponent, marker}) {
-      console.log(point, AddressComponent, marker)
+      // console.log(point, AddressComponent, marker)
     },
     clickHandler (item) {
       console.log(item)

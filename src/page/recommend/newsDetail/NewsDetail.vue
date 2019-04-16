@@ -1,6 +1,5 @@
 <template>
-  <div class="th_news_detail">
-    <!--<router-link to="/recommend?selected=3">&it;</router-link>-->
+  <div class="th_news_detail" v-if="isLoading">
     <div class="th_news_detail-share" @click="share">分享</div>
     <th-layout>
       <div class="th_news_detail-box" v-if="newDetail" ref="cont">
@@ -29,6 +28,7 @@ export default {
     return {
       newDetail: null,
       isFavorite: false,
+      isLoading: true,
       topTitle: '',
       content: '',
       shareInfo: ''
@@ -46,10 +46,8 @@ export default {
     }
   },
   mounted () {
-    // this.setNewsDetail()
   },
   created () {
-    this.setNewsDetail()
   },
   activated () {
     // this.$refs.cont.scrollTop = this.$route.meta.scrollTop
@@ -61,7 +59,9 @@ export default {
         id: this.$route.params.id,
         accountId: this.userInfo.id
       }
+      this.isLoading = false
       setNewsDetail(data).then((res) => {
+        this.isLoading = true
         let cont = res.content
         this.newDetail = cont && cont.news
         this.isFavorite = cont && cont.isFavorite
@@ -70,7 +70,7 @@ export default {
         this.shareInfo = cont.shareInfo
         document.title = this.newDetail.headline
         this.$route.meta.title = this.newDetail.headline
-        // this.$refs.layBox.headerRefresh()
+        this.$refs.layBox.headerRefresh()
       })
     },
     share () {
@@ -109,22 +109,8 @@ export default {
 .th_news_detail{
   height: 100%;
   position: relative;
-  .th_back_btn{
-    display: none !important;
-  }
-  a{
-    position: absolute;
-    top: 0;
-    left: .6rem;
-    z-index: 100;
-    font-size: @FontSize17;
-    line-height: @headerHeight;
-    color: @cf;
-    width: @headerHeight;
-    height: @headerHeight;
-  }
+  -webkit-overflow-scrolling: touch;
   .th_news_detail-share{
-    // width: 4rem;
     position: absolute;
     top: 0;
     right: .6rem;

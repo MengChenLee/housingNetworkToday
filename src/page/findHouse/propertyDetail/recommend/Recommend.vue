@@ -25,7 +25,6 @@
 
 <script>
 import ThPropertyList from '../../../../components/propertyList/PropertyList.vue'
-
 import banner from './imgs/index_banner2.jpg'
 export default {
   props: {

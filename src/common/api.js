@@ -2,7 +2,7 @@ const baseUrl = 'https://api.jrfw360.com'
 // const baseUrl = 'http://dev.jrfw360.com'
 const appid = 'wx2408f39c0ec22750'
 
-// 邀请
+// 邀请wx2408f39c0ec22750
 
 // 员工
 const comfirmInvite = baseUrl + '/company/comfirmInvite'

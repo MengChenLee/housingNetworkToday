@@ -19,15 +19,31 @@
               :selectTextList="selectTextList"
               :selectPropertyRemarkList="selectPropertyRemarkList">
             </th-property-list>
+            <div class="more_loading">
+              <span v-show="loading&&!allLoaded">加载中...</span>
+              <span v-show="allLoaded">已全部加载</span>
+            </div>
           </mt-tab-container-item>
           <mt-tab-container-item id="sameArea">
             <th-property-list :propertyList="propertyList.sameArea" :selectAble="true" :selectList="selectList" :selectTextList="selectTextList" :selectPropertyRemarkList="selectPropertyRemarkList"></th-property-list>
+            <div class="more_loading">
+              <span v-show="loading&&!allLoaded">加载中...</span>
+              <span v-show="allLoaded">已全部加载</span>
+            </div>
           </mt-tab-container-item>
           <mt-tab-container-item id="samePrice">
             <th-property-list :propertyList="propertyList.samePrice" :selectAble="true" :selectList="selectList" :selectTextList="selectTextList" :selectPropertyRemarkList="selectPropertyRemarkList"></th-property-list>
+            <div class="more_loading">
+              <span v-show="loading&&!allLoaded">加载中...</span>
+              <span v-show="allLoaded">已全部加载</span>
+            </div>
           </mt-tab-container-item>
           <mt-tab-container-item id="favorite">
             <th-property-list :propertyList="propertyList.favorite" :selectAble="true" :selectList="selectList" :selectTextList="selectTextList" :selectPropertyRemarkList="selectPropertyRemarkList"></th-property-list>
+            <div class="more_loading">
+              <span v-show="loading&&!allLoaded">加载中...</span>
+              <span v-show="allLoaded">已全部加载</span>
+            </div>
           </mt-tab-container-item>
         </mt-tab-container>
       </div>
@@ -55,7 +71,10 @@ export default {
         sameArea: [],
         samePrice: [],
         favorite: []
-      }
+      },
+      pageNo: 0,
+      loading: false, // 加载中
+      allLoaded: true // 全部加载
     }
   },
   computed: {
@@ -64,6 +83,17 @@ export default {
     },
     location () {
       return this.$store.state.locate.location
+    }
+  },
+  watch: {
+    select: {
+      handler (val, oldval) {
+        // console.log(val, oldval)
+        // if (JSON.stringify(val) !== JSON.stringify(oldval)) {
+        this.pageNo = 1
+        // }
+      },
+      deep: true
     }
   },
   // watch: {
@@ -90,12 +120,19 @@ export default {
     this.setPropertyDetail()
   },
   methods: {
+    loadMore () {
+      if (!this.allLoaded) {
+        this.loading = true
+        ++this.pageNo
+        this.setFindHouseData()
+      }
+    },
     setData () {
       let data = {
         'accountId': this.userInfo.id,
         'lat': this.location.lat,
         'lng': this.location.lng,
-        'pageNo': 1,
+        'pageNo': this.pageNo,
         'pageSize': 10,
         'targetId': 1,
         'targetType': 1

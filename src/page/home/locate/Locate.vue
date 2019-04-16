@@ -37,7 +37,7 @@
 
 <script>
 import {getCityByName} from '../../../common/httpClient.js'
-import ThLocateHeader from './locateHeader//locateHeader'
+import ThLocateHeader from './locateHeader/locateHeader'
 export default {
   data () {
     return {

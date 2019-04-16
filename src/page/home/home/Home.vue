@@ -122,7 +122,7 @@ export default {
   },
   mounted () {
     this.getData()
-    console.log(this.location)
+    // console.log(this.location)
   },
   // activated () {
   //   this.$refs.cont.scrollTop = this.$route.meta.scrollTop

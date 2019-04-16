@@ -57,7 +57,13 @@ export default {
       return this.$route.meta.pageValue
     }
   },
-  mounted () {
+  updated () {
+    // document.body.addEventListener('touchmove', function (e) {
+    //   if (e._isScroller) return
+    //   e.preventDefault()
+    // }, {
+    //   passive: false
+    // })
   },
   watch: {
     pageValue (val) {
@@ -66,12 +72,7 @@ export default {
     active (val) {
       // this.$router.push(val)
     },
-    scroll () {
-      document.querySelector('body').addEventListener('touchmove', function (e) {
-        if (!document.querySelector('.th_laybox').contains(e.target)) {
-          e.preventDefault()
-        }
-      })
+    scroll (e) {
     }
   },
   activated () {
@@ -126,7 +127,7 @@ export default {
     .th_laybox-header{
         width: 100%;
         height: @headerHeight;
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         z-index: 10;

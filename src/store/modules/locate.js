@@ -8,10 +8,9 @@ const state = {
     street: '松江体育馆',
     lat: 31.2317,
     lng: 121.473,
-    selectCityId: 0,
-    selectCity: '' // 选择的城市
+    selectCityId: 310100,
+    selectCity: '上海市' // 选择的城市
   }
-
 }
 
 const location = localStorage.getItem('location')
@@ -30,6 +29,7 @@ const actions = {
 // mutations
 const mutations = {
   setLocation (state, status) {
+    // console.log(status, state)
     localStorage.setItem('location', JSON.stringify(status))
     state.location = status
   }
